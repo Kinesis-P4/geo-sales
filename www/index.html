@@ -3,8 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-    <title>"Geosales"</title>
-
+    <title>Geosales</title>
     <!-- build:css styles/vendor.css -->
     <!-- <link rel="stylesheet" href="vendor/some.contrib.css"> -->
     <!-- bower:css -->
@@ -18,14 +17,90 @@
   </head>
 
   <body ng-app="Geosales">
+    <ion-side-menus>
+        <!-- Center content -->
+        <ion-side-menu-content ng-controller="SideMenuController">
+            <ion-tabs class="tabs-positive">
+                <ion-tab title="Inicio" icon-on="ion-ios7-home" icon-off="ion-ios7-home-outline">
+                    <ion-header-bar class="bar-positive">
+                      <div class="buttons">
+                        <a class="button button-icon icon ion-navicon" ng-click="toggleLeft()"></a>
+                      </div>
+                      <h1 class="title">Geo Sales</h1>
+                    </ion-header-bar>
+                </ion-tab>
+                <ion-tab title="Clientes" icon-on="ion-ios7-people" icon-off="ion-ios7-people-outline">
+                    <ion-header-bar class="bar-positive">
+                      <div class="buttons">
+                        <a class="button button-icon icon ion-navicon" ng-click="toggleLeft()"></a>
+                      </div>
+                      <h1 class="title">Clientes</h1>
+                      <div class="buttons">
+                        <a class="button button-icon icon ion-ios7-plus"></a>
+                      </div>
+                    </ion-header-bar>
+                </ion-tab>
+                <ion-tab title="Pendientes" icon-on="ion-cash" icon-off="ion-cash">
+                    <ion-header-bar class="bar-positive">
+                      <div class="buttons">
+                        <a class="button button-icon icon ion-navicon" ng-click="toggleLeft()"></a>
+                      </div>
+                      <h1 class="title">Pendientes</h1>
+                    </ion-header-bar>
+                </ion-tab>
+                <ion-tab title="Ruta de cobros" icon-on="ion-ios7-location" icon-off="ion-ios7-location-outline">
+                    <ion-header-bar class="bar-positive">
+                      <div class="buttons">
+                        <a class="button button-icon icon ion-navicon" ng-click="toggleLeft()"></a>
+                      </div>
+                      <h1 class="title">Ruta de Cobros</h1>
+                    </ion-header-bar>
+                </ion-tab>
+                <ion-tab title="Estadísticas" icon-on="ion-ios7-pulse-strong" icon-off="ion-ios7-pulse">
+                    <ion-header-bar class="bar-positive">
+                      <div class="buttons">
+                        <a class="button button-icon icon ion-navicon" ng-click="toggleLeft()"></a>
+                      </div>
+                      <h1 class="title">Estadísticas</h1>
+                    </ion-header-bar>
+                </ion-tab>
+            </ion-tabs>
+        </ion-side-menu-content>
 
-    <ion-pane>
-      <ion-header-bar class="bar-stable">
-        <h1 class="title">Ionic Blank Starter</h1>
-      </ion-header-bar>
-      <ion-content>
-      </ion-content>
-    </ion-pane>
+        <!-- Left menu -->
+        <ion-side-menu side="left">
+            <div class="bar bar-header bar-calm">
+                <h1 class="title">Side Menu</h1>
+            </div>
+            <div class="item item-divider">
+            Menus Dividers 1
+            </div>
+            <ul class="list">
+                <li class="item item-divider">
+                    Menus Dividers 1
+                </li>
+                <li class="item">
+                    Element 1
+                </li>
+                <li class="item">
+                    Element 2
+                </li>
+                <li class="item">
+                    Element 3
+                </li>
+                <li class="item item-divider">
+                    Menus Dividers 2
+                </li>
+                <li class="item">
+                    Element 1
+                </li>
+                <li class="item">
+                    Element 2
+                </li>
+            </ul>
+        </ion-side-menu>
+
+    </ion-side-menus>
 
     <!-- build:js scripts/vendor.js -->
     <!-- <script src="vendor/someContribJs.js"></script> -->
@@ -47,6 +122,7 @@
         <!-- build:js scripts/scripts.js -->
         <script src="scripts/config.js"></script>
         <script src="scripts/app.js"></script>
+        <script src="scripts/side-menu-controller.js"></script>
         <!-- endbuild -->
 </body>
 </html>
