@@ -125,7 +125,6 @@ module.exports = function (grunt) {
           dot: true,
           src: [
             '.tmp',
-            'www/*',
             '!www/.git*'
           ]
         }]
