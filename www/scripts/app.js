@@ -8,58 +8,58 @@ angular.module('Geosales', ['ionic', 'config'])
 .config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
     .state('tabs', {
-      url: "/tab",
+      url: '/tab',
       abstract: true,
-      templateUrl: "tabs.html"
+      templateUrl: 'tabs.html'
     })
     .state('tabs.inicio', {
-      url: "/inicio",
+      url: '/inicio',
       views: {
         'inicio-tab': {
-          templateUrl: "inicio.html",
+          templateUrl: 'views/inicio.html',
           controller: 'InicioTabCtrl'
         }
       }
     })
     .state('tabs.clientes', {
-      url: "/clientes",
+      url: '/clientes',
       views: {
         'clientes-tab': {
-          templateUrl: "clientes.html"
+          templateUrl: 'views/clientes.html'
         }
       }
     })
     .state('tabs.pendientes', {
-      url: "/pendientes",
+      url: '/pendientes',
       views: {
         'pendientes-tab': {
-          templateUrl: "pendientes.html"
+          templateUrl: 'views/pendientes.html'
         }
       }
     })
     .state('tabs.rutas', {
-      url: "/rutas",
+      url: '/rutas',
       views: {
         'rutas-tab': {
-          templateUrl: "rutas.html"
+          templateUrl: 'views/rutas.html'
         }
       }
     })
     .state('tabs.estadisticas', {
-      url: "/estadisticas",
+      url: '/estadisticas',
       views: {
         'estadisticas-tab': {
-          templateUrl: "estadisticas.html"
+          templateUrl: 'views/estadisticas.html'
         }
       }
     })
     .state('configuracion', {
       url: '/configuracion',
-      templateUrl: 'configuracion.html'
+      templateUrl: 'views/configuracion.html'
     });
 
 
-   $urlRouterProvider.otherwise("/tab/inicio");
+   $urlRouterProvider.otherwise('/tab/inicio');
 
 })
 .run(function($ionicPlatform) {
