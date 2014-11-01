@@ -4,5 +4,3 @@ bower_components/
 .sass-cache/
 build/
 dist/
-platforms/
-plugins/
