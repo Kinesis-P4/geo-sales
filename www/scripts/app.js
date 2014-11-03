@@ -25,7 +25,26 @@ angular.module('Geosales', ['ionic', 'config'])
       url: '/clientes',
       views: {
         'clientes-tab': {
-          templateUrl: 'views/clientes.html'
+          templateUrl: 'views/clientes.html',
+          controller: 'ClientesController'
+        }
+      }
+    })
+    .state('tabs.cliente', {
+      url: '/cliente/:id',
+      views: {
+        'clientes-tab': {
+          templateUrl: 'views/cliente.html',
+          controller: 'ClienteController'
+        }
+      }
+    })
+    .state('tabs.agregar-credito', {
+      url: '/cliente/:id/agregar-credito',
+      views: {
+        'clientes-tab': {
+          templateUrl: 'views/agregar-credito.html',
+          controller: 'AgregarCreditoController'
         }
       }
     })
@@ -74,4 +93,8 @@ angular.module('Geosales', ['ionic', 'config'])
       StatusBar.styleDefault();
     }
   });
+})
+.value('PARSE_CREDENTIALS',{
+    APP_ID: 'MUkgfgcgeyIgpWaRU8AvHhBBI8eNKmvS9C4UBDZS',
+    REST_API_KEY:'QWG8BMqxCIOarVhALZSa9xj5Y6aXZRs0N5lv14RK'
 });
