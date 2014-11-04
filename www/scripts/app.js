@@ -74,4 +74,32 @@ angular.module('Geosales', ['ionic', 'config'])
       StatusBar.styleDefault();
     }
   });
-});
+})
+/*.controller('PopupCtrl',function($scope, $ionicPopup, $timeout) {
+
+ // Triggered on a button click, or some other target
+ $scope.showPopup = function() {
+   $scope.data = {}
+
+   // An elaborate, custom popup
+   var myPopup = $ionicPopup.show({
+     template: '<input type="tel input" ng-model="data.abono">',
+     title: 'Agregar abono a Cuenta por Cobrar',
+     subTitle: 'Ingrese el monto en Colones',
+     scope: $scope,
+     buttons: [
+       { text: 'Cancelar', type: 'button-dark' },
+       { text: 'Abonar', type: 'button-positive',
+         onTap: function(e) {
+           if (!$scope.data.abono) {
+             //don't allow the user to close unless he enters wifi password
+             e.preventDefault();
+           } else {
+             return $scope.data.abono;
+           }
+         }
+       },
+     ]
+   });
+  };
+})*/;

@@ -1,5 +1,31 @@
-<ion-view title="Pendientes">
+<ion-view title="Pendientes" ng-app="Geosales" ng-controller="PopupCtrl">
 	<ion-content>
-	  <p>Prueba de Redireccion a Pendientes con archivo independiente</p>
+		<label class="item item-radio" ng-click="showPopup()">
+    		<input type="radio" name="group">
+    			<div class="item-content">
+    				<h2>Tennis Asics</h2>
+      				<p>Carol Martinez
+      					<span class="item-note">
+      						Saldo: ₵23.200 
+    					</span>
+    				</p>
+    			</div>
+    			<i class="radio-icon ion-checkmark"></i>
+		</label>
+		<label class="item item-radio" ng-click="showPopup()">
+    		<input type="radio" name="group">
+    			<div class="item-content">
+					<h2>Pantaloneta Nike Dry-Fit</h2>
+      				<p>Juan Perez
+      					<span class="item-note">
+      						Saldo: ₵12.700 
+    					</span>
+    				</p>
+    			</div>
+    			<i class="radio-icon ion-checkmark"></i>
+		</label>
 	</ion-content>
 </ion-view>
+
+
+
