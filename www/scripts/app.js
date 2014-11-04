@@ -39,6 +39,15 @@ angular.module('Geosales', ['ionic', 'config'])
         }
       }
     })
+    .state('tabs.nuevo-cliente', {
+      url: '/nuevo-cliente',
+      views: {
+        'clientes-tab': {
+          templateUrl: 'views/nuevo-cliente.html',
+          controller: 'ClienteController'
+        }
+      }
+    })
     .state('tabs.agregar-credito', {
       url: '/cliente/:id/agregar-credito',
       views: {

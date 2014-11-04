@@ -1,0 +1,39 @@
+<ion-view title="Clientes">
+	<ion-content ng-controller="ClientesController">
+	  <div class="list list-inset">
+	      <label class="item item-input">
+	        <!--<span class="input-label">Nombre</span>-->
+	        <input type="text" placeholder="Nombre" ng-model="cliente.name">
+	      </label>
+	      <label class="item item-input">
+	        <!--<span class="input-label">Apellido</span>-->
+	        <input type="text" placeholder="Apellidos" ng-model="cliente.lastName">
+	      </label>
+	      <label class="item item-input">
+	        <!--<span class="input-label">Identificación</span>-->
+	        <input type="text" placeholder="Identificacion" ng-model="cliente.Id">
+	      </label>
+	      <label class="item item-input">
+	        <!--<span class="input-label">Email</span>-->
+	        <input type="email" placeholder="Email" ng-model="nuevoCliente-email">
+	      </label>
+	      <label class="item item-input">
+	        <!--<span class="input-label">Dirección</span>-->
+	        <input type="text" placeholder="Dirección" ng-model="nuevoCliente-direccion">
+	      </label>
+		  <!--<span class="input-label">Horario de cobro:</span>
+		  <ion-checkbox ng-repeat="item in hoursList"
+	                      ng-model="item.checked" 
+	                      ng-checked="item.checked">
+	          {{ item.text }}
+	      </ion-checkbox>
+	      <span class="input-label">Días de cobro:</span>
+	      <ion-checkbox ng-repeat="item in daysList"
+	                      ng-model="item.checked" 
+	                      ng-checked="item.checked">
+	          {{ item.text }}
+	      </ion-checkbox>-->
+	      <button class="button button-positive button-block">Guardar</button>
+    </div>
+	</ion-content>
+</ion-view>
