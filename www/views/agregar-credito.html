@@ -1,5 +1,53 @@
 <ion-view title="Agregar Crédito">
 	<ion-content>
-		<p>Agregar Crédito</p>
+		<div class="list card">
+			<div class="item" ng-repeat="line in lines">
+				<div class="list">
+					<div class="row">
+						<div class="col">
+							<label class="item item-input">
+								<input type="text" ng-model="line.name" placeholder="Producto" required="required">
+							</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col">
+							<label class="item item-input">
+								<input type="number" ng-model="line.quantity" placeholder="Cantidad" required="required">
+							</label>
+						</div>
+						<div class="col">
+							<label class="item item-input">
+								<input type="number" ng-model="line.price" placeholder="Precio Unitario" required="required">
+							</label>
+						</div>
+						<div class="col col-10" ng-hide="lines.length == 1">
+							<a class="button button-icon icon ion-minus-circled assertive" ng-click="removeLine(line)" style="text-align:center; width:100%;"></a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col col-33 col-offset-33">
+					<a class="button button-icon icon ion-plus-circled balanced" ng-click="addLine()" style="text-align:center; width:100%;"></a>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col col-20 col-offset-50 text-right"><strong>Sub Total:</strong></div>
+			<div class="col col-20 text-right">{{ getTotal() }} CRC</div>
+		</div>
+		<div class="row">
+			<div class="col col-20 col-offset-50 text-right" style="line-height: 2.4;"><strong>Abono:</strong></div>
+			<div class="col col-10 text-right"><input type="number" ng-model="deposit"></div>
+			<div class="col col-10 text-left" style="line-height: 2.4;">CRC</div>
+		</div>
+		<div class="row">
+			<div class="col col-20 col-offset-50 text-right"><strong>Total:</strong></div>
+			<div class="col col-20 text-right">{{getTotal()-deposit}} CRC</div>
+		</div>
+		<div class="row">
+			<button class="button button-block button-positive">Agregar Crédito</button>
+		</div>
 	</ion-content>
 </ion-view>
