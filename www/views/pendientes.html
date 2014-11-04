@@ -1,4 +1,8 @@
-<ion-view title="Pendientes" ng-app="Geosales" ng-controller="PopupCtrl">
+<ion-view title="Pendientes" ng-app="Geosales" ng-controller="PopupController">
+		<ion-nav-buttons side="right">
+            <button class="button button-icon button-clear ion-ios7-gear" ng-click="showRightMenu()">
+            </button>
+        </ion-nav-buttons>
 	<ion-content>
 		<label class="item item-radio" ng-click="showPopup()">
     		<input type="radio" name="group">
@@ -26,6 +30,9 @@
 		</label>
 	</ion-content>
 </ion-view>
+
+
+
 
 
 

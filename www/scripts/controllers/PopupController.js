@@ -1,20 +1,20 @@
 'use strict';
 
 angular.module('Geosales')
-.controller('PopupCtrl', function($scope, $ionicPopup, $timeout) {
+.controller('PopupController', function($scope, $ionicPopup, $timeout) {
  // Triggered on a button click, or some other target
  $scope.showPopup = function() {
    $scope.data = {}
 
    // An elaborate, custom popup
    var myPopup = $ionicPopup.show({
-     template: '<input type="password" ng-model="data.wifi">',
-     title: 'Enter Wi-Fis Password',
-     subTitle: 'Please use normal things',
+     template: '<input type="tel number" ng-model="data.wifi">',
+     title: 'Agregar abono',
+     subTitle: 'Ingrese el monto a abonar',
      scope: $scope,
      buttons: [
-       { text: 'Cancel' },
-       { text: '<b>Save</b>', type: 'button-positive',
+       { text: 'Cancelar' , type: 'button-positive' },
+       { text: 'Acreditar', type: 'button-positive',
          onTap: function(e) {
            if (!$scope.data.wifi) {
              //don't allow the user to close unless he enters wifi password
