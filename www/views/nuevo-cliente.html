@@ -1,26 +1,24 @@
 <ion-view title="Clientes">
-	<ion-content ng-controller="ClientesController">
+	<ion-content>
 	  <div class="list list-inset">
-	      <label class="item item-input">
-	        <!--<span class="input-label">Nombre</span>-->
-	        <input type="text" placeholder="Nombre" ng-model="cliente.name">
-	      </label>
-	      <label class="item item-input">
-	        <!--<span class="input-label">Apellido</span>-->
-	        <input type="text" placeholder="Apellidos" ng-model="cliente.lastName">
-	      </label>
-	      <label class="item item-input">
-	        <!--<span class="input-label">Identificación</span>-->
-	        <input type="text" placeholder="Identificacion" ng-model="cliente.Id">
-	      </label>
-	      <label class="item item-input">
-	        <!--<span class="input-label">Email</span>-->
-	        <input type="email" placeholder="Email" ng-model="nuevoCliente-email">
-	      </label>
-	      <label class="item item-input">
-	        <!--<span class="input-label">Dirección</span>-->
+		<label class="item item-input">
+			<input type="text" placeholder="Nombre" ng-model="cliente.name">
+		</label>
+		<label class="item item-input">
+			<input type="text" placeholder="Apellidos" ng-model="cliente.lastName">
+		</label>
+		<label class="item item-input">
+			<input type="email" placeholder="Correo" ng-model="cliente.email">
+		</label>
+		<label class="item item-input">
+			<input type="number" placeholder="Teléfono" ng-model="cliente.phone">
+		</label>
+		<!--<label class="item item-input">
+			<input type="text" placeholder="Identificacion" ng-model="cliente.Id">
+		</label> -->
+			<!--<label class="item item-input">
 	        <input type="text" placeholder="Dirección" ng-model="nuevoCliente-direccion">
-	      </label>
+	      </label> -->
 		  <!--<span class="input-label">Horario de cobro:</span>
 		  <ion-checkbox ng-repeat="item in hoursList"
 	                      ng-model="item.checked" 
@@ -33,7 +31,7 @@
 	                      ng-checked="item.checked">
 	          {{ item.text }}
 	      </ion-checkbox>-->
-	      <button class="button button-positive button-block">Guardar</button>
+	      <button class="button button-positive button-block" ng-click="addClient()">Guardar</button>
     </div>
 	</ion-content>
 </ion-view>
