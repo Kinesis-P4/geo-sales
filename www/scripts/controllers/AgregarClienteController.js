@@ -18,37 +18,11 @@ angular.module('Geosales')
 		newClient.set('location', defaultPoint);
 		newClient.set('user', Parse.User._currentUser);
 		newClient.save({
-		      success: function(newClient){
-		            
-		            $ionicPopup.show({
-			              template: 'El cliente fue guardado exitosamente.',
-			              title: 'Cliente',              
-			              buttons: [
-			                { 
-			                  text: 'Continuar',
-			                  
-			                  onTap: function(e) { $location.path("tab/cliente/" + newClient.id); } 
-			                }
-			              ]
-			              }).then(function(res) {
-			                console.log('Tapped!', res);
-			              }, function(err) {
-			                console.log('Err:', err);
-			              }, function(msg) {
-			                console.log('message:', msg);
-		              });
-		      }
+			success: function(newClient){
+				alert('El cliente fue agregado correctamente.');
+				window.history.back();
+			}
 		});
-
-		// $ionicPopup.show({
-		//      title: 'Cliente guardado',
-		//      template: 'El cliente fue guardado correctamente.'
-		//    });
-		
-		
-		
-
-		//Redireccionar a la pantalla del cliente recien creado
   	};  	
 
 }]);

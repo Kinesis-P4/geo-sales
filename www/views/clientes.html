@@ -10,7 +10,7 @@
 	</div>
 	<ion-content style="margin-top:60px">
 	    <ion-list class="list">
-	        <ion-item ng-repeat="cliente in clientes | orderBy: '-cliente.name' | filter : query" cliente="cliente">
+	        <ion-item ng-repeat="cliente in clientes | orderBy: cliente.name | filter : query" cliente="cliente">
 				<div class="item item-text-wrap">
 					<p><strong>{{cliente.name}} {{cliente.lastName}}</strong></p>
 					<p><span>Teléfono:</span> <a href="tel:({{cliente.phone}})">{{cliente.phone}}</a></p>
