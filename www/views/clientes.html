@@ -2,19 +2,19 @@
 	<ion-nav-buttons side="right">
 		<a href="#/tab/nuevo-cliente" class="button button-icon button-clear ion-plus-circled"></a>
 	</ion-nav-buttons>
-	<div class="item item-input-inset" style="margin-top:40px">
-		<label class="item-input-wrapper">
-			<input type="text" placeholder="Nombre">
+	<div class="list list-inset" style="margin-top:51px">
+		<label class="item item-input item-input-wrapper">
+			<i class="icon ion-search placeholder-icon"></i>
+			<input type="text" placeholder="Buscar" ng-model="query">
 		</label>
-		<button class="button button-small icon ion-search"></button>
 	</div>
-	<ion-content style="margin-top:45px">
+	<ion-content style="margin-top:60px">
 	    <ion-list class="list">
-	        <ion-item ng-repeat="cliente in clientes | orderBy: '-cliente.name'" cliente="cliente">
+	        <ion-item ng-repeat="cliente in clientes | orderBy: '-cliente.name' | filter : query" cliente="cliente">
 				<div class="item item-text-wrap">
 					<p><strong>{{cliente.name}} {{cliente.lastName}}</strong></p>
 					<p><span>Teléfono:</span> <a href="tel:({{cliente.phone}})">{{cliente.phone}}</a></p>
-					<a class="button button-small icon icon-right ion-chevron-right" href="#/tab/cliente/{{cliente.objectId}}">Ver</a>
+					<a class="button button-small icon icon-right ion-chevron-right" href="#/tab/cliente/{{cliente.id}}">Ver</a>
 				</div>
 	        </ion-item>
 	    </ion-list>
