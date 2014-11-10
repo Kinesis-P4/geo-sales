@@ -1,0 +1,14 @@
+{
+    "applications": {
+        "_default": {
+            "link": "geo-sales"
+        }, 
+        "geo-sales": {
+            "applicationId": "MUkgfgcgeyIgpWaRU8AvHhBBI8eNKmvS9C4UBDZS", 
+            "masterKey": "uVy1nrucMrt5A9FiLAZc3qL1dsK6YVh0Ib9lQZbI"
+        }
+    }, 
+    "global": {
+        "parseVersion": "1.3.1"
+    }
+}
