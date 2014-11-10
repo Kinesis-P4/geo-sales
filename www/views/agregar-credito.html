@@ -34,20 +34,19 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col col-20 col-offset-50 text-right"><strong>Sub Total:</strong></div>
-			<div class="col col-20 text-right">{{ getTotal() }} CRC</div>
+			<div class="col col-33 col-offset-33 text-right"><strong>Sub Total:</strong></div>
+			<div class="col col-20 col-offset-10 text-right">{{ getTotal() }} CRC</div>
 		</div>
 		<div class="row">
-			<div class="col col-20 col-offset-50 text-right" style="line-height: 2.4;"><strong>Abono:</strong></div>
-			<div class="col col-10 text-right"><input type="number" ng-model="deposit"></div>
-			<div class="col col-10 text-left" style="line-height: 2.4;">CRC</div>
+			<div class="col col-33 col-offset-33 text-right" style="line-height: 2.4;"><strong>Abono:</strong></div>
+			<div class="col col-20 col-offset-10"><input ng-model="credit.deposit" class="text-right" style="border:1px solid #ddd;" type="number"></div>
 		</div>
 		<div class="row">
-			<div class="col col-20 col-offset-50 text-right"><strong>Total:</strong></div>
-			<div class="col col-20 text-right">{{getTotal()-deposit}} CRC</div>
+			<div class="col col-33 col-offset-33 text-right"><strong>Total:</strong></div>
+			<div class="col col-20 col-offset-10 text-right"><span>{{getTotal()-credit.deposit}} CRC</span></div>
 		</div>
 		<div class="row">
-			<button class="button button-block button-positive">Agregar Crédito</button>
+			<button ng-click="submitCredit()" class="button button-block button-positive">Agregar Crédito</button>
 		</div>
 	</ion-content>
 </ion-view>
