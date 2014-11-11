@@ -16,7 +16,7 @@ angular.module('Geosales')
 
   var Client = Parse.Object.extend('clients');
   var Debit = Parse.Object.extend('debits');
-  $scope.data = {deposito:0};
+  $scope.data = {deposit:0};
 
   var submitDebit = function() {
     var query = new Parse.Query(Client);
@@ -38,6 +38,7 @@ angular.module('Geosales')
       newDebit.save(null, {
         success: function(newDebit) {
           window.alert('El débito fué acreditado correctamente.');
+          $scope.data.deposit = 0;
         },
         error: function(newDebit, error) {
           console.log('Ocurrió un error salvando el abono, con el codigo de error: ' + error.message);
