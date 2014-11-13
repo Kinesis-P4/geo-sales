@@ -48,6 +48,15 @@ angular.module('Geosales', ['ionic', 'config'])
         }
       }
     })
+    .state('tabs.editar-cliente', {
+      url: '/cliente/:id/editar-cliente',
+      views: {
+        'clientes-tab': {
+          templateUrl: 'views/editar-cliente.html',
+          controller: 'EditarClienteController'
+        }
+      }
+    })
     .state('tabs.agregar-credito', {
       url: '/cliente/:id/agregar-credito',
       views: {
@@ -88,6 +97,7 @@ angular.module('Geosales', ['ionic', 'config'])
 
 
    $urlRouterProvider.otherwise('/tab/inicio');
+
 })
 .run(function($ionicPlatform, $rootScope) {
   $ionicPlatform.ready(function() {
