@@ -88,7 +88,6 @@ angular.module('Geosales', ['ionic', 'config'])
 
 
    $urlRouterProvider.otherwise('/tab/inicio');
-
 })
 .run(function($ionicPlatform, $rootScope) {
   $ionicPlatform.ready(function() {
