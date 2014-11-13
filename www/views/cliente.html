@@ -1,0 +1,17 @@
+<ion-view title="{{cliente.name}} {{cliente.lastName}}">
+	<ion-content>
+		<div class="item item-text-wrap">
+			<p><strong>{{cliente.name}} {{cliente.lastName}}</strong></p>
+			<p><span>Saldo:</span> 50.000 CRC</p>
+			<p><span>Teléfono:</span> <a href="tel:({{cliente.phone}})">{{cliente.phone}}</a></p>
+			<a class="button button-small icon icon-right ion-chevron-right" href="#/tab/cliente/{{cliente.objectId}}/agregar-credito">Agregar Crédito</a>
+			<a class="button button-small icon icon-right ion-chevron-right" ng-click="showPopup()">Realizar Débito</a>
+			<br>
+			<a class="button button-small icon icon-left ion-chevron-left" href="#/tab/clientes">Volver</a>
+		</div>
+	</ion-content>
+</ion-view>
+
+<script id="popupCredito.html" type="text/ng-template">
+	<input type="number" ng-model="data.deposit">
+</script>	

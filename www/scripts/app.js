@@ -25,7 +25,35 @@ angular.module('Geosales', ['ionic', 'config'])
       url: '/clientes',
       views: {
         'clientes-tab': {
-          templateUrl: 'views/clientes.html'
+          templateUrl: 'views/clientes.html',
+          controller: 'ClientesController'
+        }
+      }
+    })
+    .state('tabs.cliente', {
+      url: '/cliente/:id',
+      views: {
+        'clientes-tab': {
+          templateUrl: 'views/cliente.html',
+          controller: 'ClienteController'
+        }
+      }
+    })
+    .state('tabs.nuevo-cliente', {
+      url: '/nuevo-cliente',
+      views: {
+        'clientes-tab': {
+          templateUrl: 'views/nuevo-cliente.html',
+          controller: 'AgregarClienteController'
+        }
+      }
+    })
+    .state('tabs.agregar-credito', {
+      url: '/cliente/:id/agregar-credito',
+      views: {
+        'clientes-tab': {
+          templateUrl: 'views/agregar-credito.html',
+          controller: 'AgregarCreditoController'
         }
       }
     })
@@ -60,9 +88,8 @@ angular.module('Geosales', ['ionic', 'config'])
 
 
    $urlRouterProvider.otherwise('/tab/inicio');
-
 })
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, $rootScope) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -74,4 +101,19 @@ angular.module('Geosales', ['ionic', 'config'])
       StatusBar.styleDefault();
     }
   });
+
+  Parse.initialize("MUkgfgcgeyIgpWaRU8AvHhBBI8eNKmvS9C4UBDZS", "R6z7id5l9da8R2UO1t4XTvEyeKXedVCIAQHJPIcV");
+  Parse.User.logIn("aluna", "patrones", {
+    success: function(user) {
+      $rootScope.loggedUser = user;
+    },
+    error: function(user, error) {
+      // The login failed. Check error to see why.
+    }
+  });
+
+})
+.value('PARSE_CREDENTIALS',{
+    APP_ID: 'MUkgfgcgeyIgpWaRU8AvHhBBI8eNKmvS9C4UBDZS',
+    REST_API_KEY:'QWG8BMqxCIOarVhALZSa9xj5Y6aXZRs0N5lv14RK'
 });
