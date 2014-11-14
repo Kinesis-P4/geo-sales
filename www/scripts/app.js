@@ -83,7 +83,8 @@ angular.module('Geosales', ['ionic', 'config'])
     })
     .state('configuracion', {
       url: '/configuracion',
-      templateUrl: 'views/configuracion.html'
+      templateUrl: 'views/configuracion.html',
+      controller: 'ConfigurationController'
     });
 
 

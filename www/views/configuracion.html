@@ -1,5 +1,71 @@
 <ion-view title="Configuraci&oacute;n">
 	<ion-content>
-	  <p>Aca se ve una pantalla sin tabs donde se modificara cuenta, correo y recordatorios</p>
+	  	<div class="item item-divider">
+    		Informaci&oacute;n Personal
+  		</div>
+		<li class="item text">
+			<input placeholder="Nombre" ng-model="data.user.name">
+		</li>
+		<li class="item text">
+			<input placeholder="Correo Electr&oacute;nico" ng-model="data.user.email">
+		</li>
+		<li class="item number tel">
+			<input  placeholder="N&uacute;mero Telef&oacute;nico" ng-model="data.user.phone">
+		</li>
+		<li class="item">
+			<a href="#" class="item item-icon-left" ng-model="data.user.location">
+    			<i class="icon ion-location"></i>
+    				Ubicaci&oacute;n
+    				<img src="resources/mapicon.png">
+  			</a>
+		</li>
+	  	<div class="item item-divider">
+    		Preferencias
+  		</div>
+		<li class="item item-toggle">
+    	Enviar e-mails a clientes
+     		<label class="toggle toggle-assertive">
+       			<input type="checkbox" ng-model="data.user.sendEmails">
+       				<div class="track">
+         				<div class="handle"></div>
+       				</div>
+     		</label>
+  		</li>
+  		<li class="item item-toggle">
+    	Activar notificaciones
+     		<label class="toggle toggle-assertive">
+       			<input type="checkbox" ng-model="data.user.sendNotifications">
+       				<div class="track">
+         				<div class="handle"></div>
+       				</div>
+     		</label>
+  		</li>
+  		<li class="item item-toggle">
+    	Enviar mensajes de texto
+     		<label class="toggle toggle-assertive">
+       			<input type="checkbox" ng-model="data.user.sendSms">
+       				<div class="track">
+         				<div class="handle"></div>
+       				</div>
+     		</label>
+  		</li>
+  		<li class="item item-toggle">
+    	Cobrar fines de semana
+     		<label class="toggle toggle-assertive">
+       			<input type="checkbox" ng-model="data.user.collectOnWeekends">
+       				<div class="track">
+         				<div class="handle"></div>
+       				</div>
+     		</label>
+  		</li>
 	</ion-content>
 </ion-view>
+
+username
+password
+name
+lastName
+email
+telefono
+periodicidadCobro
+notificarViaEmail
