@@ -2,35 +2,23 @@
 
 angular.module('Geosales')
   .controller('ConfigurationController', ['$scope', function ($scope) {
-  $scope.user = {username:'',password:'',name:'', lastName:'', email:'',phone:'',collectFrequency:0 ,emailNotification:0};
+  $scope.user = Parse.User._currentUser.attributes;
+  //{name:'', lastName:'', email:'',phone:'',collectFrequency:0 ,emailNotification:true};
 
-  var User = Parse.Object.extend('user');
-
-   var addSettings = function (user) {
-    if($scope.data.deposit > 0) {
-      var newUser = new Debit();
-      newUser.set('username', $scope.user.username);
-      newUser.set('password', $scope.user.password);
-      newUser.set('name', $scope.user.name);
-      newUser.set('lastName', $scope.user.lastName);
-      newUser.set('email', $scope.user.email);
-      newUser.set('phone', $scope.user.phone);
-      newUser.set('collectFrequency', $scope.user.collectFrequency);
-      newUser.set('emailNotification', $scope.user.emailNotification);                                          
-
-
-      newDebit.set('amount', $scope.data.deposit);
-      newDebit.save(null, {
-        success: function(newDebit) {
-          window.alert('El débito fué acreditado correctamente.');
-          $scope.data.deposit = 0;
-        },
-        error: function(newDebit, error) {
-          console.log('Ocurrió un error salvando el abono, con el codigo de error: ' + error.message);
-        }
-      });
-    }else{
-      window.alert('El monto debe ser mayor a cero.');
-    }
+  $scope.addSettings = function () {
+    Parse.User._currentUser.set('name', $scope.user.name);
+    Parse.User._currentUser.set('lastName', $scope.user.lastName);
+    Parse.User._currentUser.set('email', $scope.user.email);
+    Parse.User._currentUser.set('phone', $scope.user.phone);
+    Parse.User._currentUser.set('collectFrequency', $scope.user.collectFrequency);
+    Parse.User._currentUser.set('emailNotification', $scope.user.emailNotification);                                          
+    Parse.User._currentUser.save(null, {
+      success: function(user){
+        window.alert('Su configuración ha sido actualizada.');
+      },
+      error: function(user, error) {
+        console.log('Ocurrió un error al actualizar su configuración, con el codigo de error: ' + error.message);
+      }
+    });
   };
 }]);
