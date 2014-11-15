@@ -1,16 +1,38 @@
-<ion-view title="{{cliente.name}} {{cliente.lastName}}">
+<ion-view title="{{cliente.attributes.name}} {{cliente.attributes.lastName}}">
 	<ion-nav-buttons side="right">
-		<a href="#/tab/cliente/{{cliente.objectId}}/editar-cliente" class="button button-icon button-clear ion-edit"></a>
+		<a href="#/tab/cliente/{{cliente.id}}/editar-cliente" class="button button-icon button-clear ion-edit"></a>
 	</ion-nav-buttons>
 	<ion-content>
 		<div class="item item-text-wrap">
-			<p><strong>{{cliente.name}} {{cliente.lastName}}</strong></p>
-			<p><span>Saldo:</span> 50.000 CRC</p>
-			<p><span>Teléfono:</span> <a href="tel:({{cliente.phone}})">{{cliente.phone}}</a></p>
-			<a class="button button-small icon icon-right ion-chevron-right" href="#/tab/cliente/{{cliente.objectId}}/agregar-credito">Agregar Crédito</a>
-			<a class="button button-small icon icon-right ion-chevron-right" ng-click="showPopup()">Realizar Débito</a>
-			<br>
-			<a class="button button-small icon icon-left ion-chevron-left" href="#/tab/clientes">Volver</a>
+			<p><span>Saldo:</span> {{getSaldo() | currency:"CRC "}}</p>
+			<p><span>Teléfono:</span> <a href="tel:({{cliente.attributes.phone}})">{{cliente.attributes.phone}}</a></p>
+			<p><span>Último abono:</span> {{cliente.attributes.lastCollectDate.getTime() | date:"dd/MM/yyyy 'at' h:mma"}} </p>
+
+			<div class="button-bar">
+				<a class="button button-positive icon-left ion-arrow-left-b"  href="#/tab/clientes">Volver</a>
+				<a class="button button-positive icon-bottom ion-cash" ng-click="showPopup()">Abono</a>
+				<a class="button button-positive icon-right ion-bag" href="#/tab/cliente/{{cliente.id}}/agregar-credito">Compra</a>
+			</div>
+			<br />
+			<ul>
+				<li ng-repeat="transaction in transactions">
+					<div class="row" style="padding:0;" ng-if="transaction.attributes.transaction_kind == 'credit'">
+						<div class="col col-67">Compra - <span style="font-size:12px">{{transaction.createdAt.getTime() | date:"dd/MM/yyyy 'at' h:mma"}}</span></div>
+						<div class="col col-33 text-right"><span style="font-size:12px;color:red;">({{transaction.attributes.amount | currency:"CRC "}})</span></div>
+					</div>
+					<div class="row" style="padding:0;" ng-if="transaction.attributes.transaction_kind == 'debit'">
+						<div class="col col-67">Abono - <span style="font-size:12px">{{transaction.createdAt.getTime() | date:"dd/MM/yyyy 'at' h:mma"}}</span></div>
+						<div class="col col-33 text-right"><span style="font-size:12px">{{transaction.attributes.amount | currency:"CRC "}}</span></div>
+					</div>
+				</li>
+				<li>
+					<div class="row" style="padding:0;">
+						<div class="col col-67 text-right">Saldo</div>
+						<div class="col col-33 text-right" style="font-size:12px; border-top: 1px solid black;"><strong>{{getSaldo() | currency:"CRC "}}</strong></div>
+					</div>
+				</li>
+			</ul>
+
 		</div>
 	</ion-content>
 </ion-view>

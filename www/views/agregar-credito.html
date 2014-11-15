@@ -1,4 +1,4 @@
-<ion-view title="Agregar Crédito">
+<ion-view title="Agregar Compra">
 	<ion-content>
 		<div class="list card">
 			<div class="item" ng-repeat="line in lines">
@@ -35,7 +35,7 @@
 		</div>
 		<div class="row">
 			<div class="col col-33 col-offset-33 text-right"><strong>Sub Total:</strong></div>
-			<div class="col col-20 col-offset-10 text-right">{{ getTotal() }} CRC</div>
+			<div class="col col-20 col-offset-10 text-right">{{ getTotal() | currency:"CRC " }}</div>
 		</div>
 		<div class="row">
 			<div class="col col-33 col-offset-33 text-right" style="line-height: 2.4;"><strong>Abono:</strong></div>
@@ -43,7 +43,7 @@
 		</div>
 		<div class="row">
 			<div class="col col-33 col-offset-33 text-right"><strong>Total:</strong></div>
-			<div class="col col-20 col-offset-10 text-right"><span>{{getTotal()-credit.deposit}} CRC</span></div>
+			<div class="col col-20 col-offset-10 text-right"><span>{{getTotal()-credit.deposit | currency:"CRC "}}</span></div>
 		</div>
 		<div class="row">
 			<button ng-click="submitCredit()" class="button button-block button-positive">Agregar Crédito</button>

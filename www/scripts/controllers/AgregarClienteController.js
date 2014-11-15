@@ -14,6 +14,7 @@ angular.module('Geosales')
 		newClient.set('lastName', $scope.cliente.lastName);
 		newClient.set('email', $scope.cliente.email);
 		newClient.set('phone', $scope.cliente.phone+"");
+		newClient.set('lastCollectDate', new Date());
 		newClient.set('collectDate', $scope.cliente.collectDate);
 		newClient.set('location', defaultPoint);
 		newClient.set('user', Parse.User._currentUser);

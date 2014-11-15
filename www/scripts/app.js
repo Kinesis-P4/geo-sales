@@ -17,7 +17,7 @@ angular.module('Geosales', ['ionic', 'config'])
       views: {
         'inicio-tab': {
           templateUrl: 'views/inicio.html',
-          controller: 'InicioTabCtrl'
+          controller: 'InicioController'
         }
       }
     })
@@ -70,7 +70,8 @@ angular.module('Geosales', ['ionic', 'config'])
       url: '/pendientes',
       views: {
         'pendientes-tab': {
-          templateUrl: 'views/pendientes.html'
+          templateUrl: 'views/pendientes.html',
+          controller: 'PendientesController'
         }
       }
     })
