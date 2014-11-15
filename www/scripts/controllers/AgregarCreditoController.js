@@ -34,7 +34,6 @@ angular.module('Geosales')
       query.get($stateParams.id, {
         success: function(responseClient) {
           addCredit(responseClient);
-          addDebit(responseClient);
           alert('El crédito fue agregado correctamente.');
           window.history.back();
         },
@@ -48,9 +47,11 @@ angular.module('Geosales')
       //Creating the new Credit
       var newCredit = new Credit();
       newCredit.set('client', client);
+      newCredit.set('amount', $scope.getTotal());
       newCredit.save(null, {
         success: function(newCredit) {
           addCreditLines(newCredit);
+          addDebit(client);
         },
         error: function(newCredit, error) {
           console.log('Ocurrió un error salvando el nuevo credito, con el codigo de error: ' + error.message);
