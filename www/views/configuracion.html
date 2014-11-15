@@ -1,5 +1,36 @@
 <ion-view title="Configuraci&oacute;n">
 	<ion-content>
-	  <p>Aca se ve una pantalla sin tabs donde se modificara cuenta, correo y recordatorios</p>
+    <div class="item item-divider">
+      Informaci&oacute;n Personal
+    </div>
+    <label class="item item-input">
+      <input type="text" placeholder="Nombre" ng-model="user.name">
+    </label>
+    <label class="item item-input">
+      <input type="text" placeholder="Apellidos" ng-model="user.lastName">
+    </label>
+    <label class="item item-input">
+      <input type="text" placeholder="Nombre" ng-model="user.email">
+    </label>
+    <div class="item item-divider">
+      Preferencias
+    </div>
+    <label class="item item-input">
+      <input type="text" placeholder="Frecuencia de Cobro" ng-model="user.collectFrequency">
+    </label>
+    <ul class="list">
+      <li class="item item-toggle">
+        Enviar e-mails a clientes
+        <label class="toggle toggle-assertive">
+          <input type="checkbox" ng-model="user.emailNotification">
+            <div class="track">
+              <div class="handle"></div>
+            </div>
+        </label>
+      </li>
+    </ul>
+    <button class="button button-full button-balanced" ng-click="addSettings()">
+      Actualizar
+    </button>
 	</ion-content>
 </ion-view>
