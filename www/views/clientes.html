@@ -9,12 +9,12 @@
 		</label>
 	</div>
 	<ion-content style="margin-top:60px">
-	    <div class="list">
+		<div class="list">
 			<a ng-repeat="cliente in clientes | orderBy: cliente.name | filter : query" cliente="cliente" class="item item-icon-left item-icon-right" href="#/tab/cliente/{{cliente.id}}">
 				<i class="icon ion-person"></i>
 				<p><strong>{{cliente.name}} {{cliente.lastName}}</strong></p>
 				<i class="icon ion-arrow-right-c"></i>
 			</a>
-	    </div>
+		</div>
 	</ion-content>
 </ion-view>
