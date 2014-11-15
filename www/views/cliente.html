@@ -1,16 +1,21 @@
-<ion-view title="{{cliente.name}} {{cliente.lastName}}">
+<ion-view title="{{cliente.attributes.name}} {{cliente.attributes.lastName}}">
 	<ion-nav-buttons side="right">
-		<a href="#/tab/cliente/{{cliente.objectId}}/editar-cliente" class="button button-icon button-clear ion-edit"></a>
+		<a href="#/tab/cliente/{{cliente.id}}/editar-cliente" class="button button-icon button-clear ion-edit"></a>
 	</ion-nav-buttons>
 	<ion-content>
 		<div class="item item-text-wrap">
-			<p><strong>{{cliente.name}} {{cliente.lastName}}</strong></p>
-			<p><span>Saldo:</span> 50.000 CRC</p>
-			<p><span>Teléfono:</span> <a href="tel:({{cliente.phone}})">{{cliente.phone}}</a></p>
-			<a class="button button-small icon icon-right ion-chevron-right" href="#/tab/cliente/{{cliente.objectId}}/agregar-credito">Agregar Crédito</a>
+			<p><strong>{{cliente.attributes.name}} {{cliente.attributes.lastName}}</strong></p>
+			<p><span>Saldo:</span> {{balance}} CRC</p>
+			<p><span>Teléfono:</span> <a href="tel:({{cliente.attributes.phone}})">{{cliente.attributes.phone}}</a></p>
+			<a class="button button-small icon icon-right ion-chevron-right" href="#/tab/cliente/{{cliente.id}}/agregar-credito">Agregar Crédito</a>
 			<a class="button button-small icon icon-right ion-chevron-right" ng-click="showPopup()">Realizar Débito</a>
 			<br>
 			<a class="button button-small icon icon-left ion-chevron-left" href="#/tab/clientes">Volver</a>
+			<ul>
+				<li ng-repeat="transaction in transactions">
+					{{transaction.attributes.amount}}
+				</li>
+			</ul>
 		</div>
 	</ion-content>
 </ion-view>

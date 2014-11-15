@@ -1,41 +1,88 @@
 'use strict';
 
-angular.module('Geosales').controller('ClienteController', ['$scope', 'ClientesServices', '$ionicPopup', '$state','$stateParams', 
-	function ($scope, ClientesServices, $ionicPopup, $state, $stateParams) {
+angular.module('Geosales').controller('ClienteController', ['$scope', 'ClientesServices', '$ionicPopup', '$state','$stateParams', 'PARSE_CREDENTIALS', 
+	function ($scope, ClientesServices, $ionicPopup, $state, $stateParams, PARSE_CREDENTIALS) {
 
-  	$scope.transactions = [];
+  var Client = Parse.Object.extend('clients');
+  var Debit = Parse.Object.extend('debits');
 
-  	$scope.getTransactions = function() {
+  $scope.data = {deposit:0};
+  $scope.transactions = [];
+  $scope.creditLines = [];
+  $scope.balance = 0;
+
+  $scope.cliente = {};
+  $scope.clienteLoaded = {};
+
+  $scope.$on('$viewContentLoaded', function(){
+    $scope.getClient();
+    //$scope.getBalance();
+  });
+
+  $scope.getClient = function() {
+    var query = new Parse.Query(Client);
+    query.get($stateParams.id, {
+      success: function(responseClient) {
+        $scope.client = responseClient;
+        console.log($scope.client);
+      },
+      error: function(object, error) {
+        console.log('Ocurrió un error obteniendo cliente actual, con el codigo de error: ' + error.message);
+      }
+    }).then(function(){
+      $scope.getTransactions();
+      $scope.getCreditLinesFor();
+    });
+  };
+
+
+
+
+
+  $scope.getTransactions = function() {
 		var Log = Parse.Object.extend('account_log');
 		var query = new Parse.Query(Log);
-		query.descending("createdAt");
-		query.include("client");
+		query.ascending("createdAt");
+    query.include("client");
 		query.include("debit");
 		query.include("credit");
+    query.include("createdAt");
+    query.equalTo("client", $scope.cliente);
 		query.find({
 			success: function(logs) {
 				$scope.transactions = logs;
+        console.log($scope.transactions);
 			},
 			error: function() {
 				console.log('Error getting the transaction logs');
 			}
 		});
-  	};
+  };
 
-	var Client = Parse.Object.extend('clients');
-		var Debit = Parse.Object.extend('debits');
-		$scope.data = {deposit:0};
+  $scope.getCreditLinesFor = function() {
+    var Lines = Parse.Object.extend('credit_lines');
+    var query = new Parse.Query(Lines);
+    query.equalTo('client', $scope.cliente);
+    query.find({
+      success: function(lines) {
+        $scope.creditLines = lines;
+        console.log($scope.creditLines);
+      },
+      error: function() {
+        console.log('Error getting the transaction logs');
+      }
+    });
+  };
 
-		var submitDebit = function() {
-		var query = new Parse.Query(Client);
-		query.get($stateParams.id, {
-			success: function(responseClient) {
-				addDebit(responseClient);
-			},
-			error: function(object, error) {
-				console.log('Ocurrió un error obteniendo cliente actual, con el codigo de error: ' + error.message);
-			}
-		});
+
+
+
+
+
+
+
+	var submitDebit = function() {
+		addDebit($scope.clienteLoaded);
 	};
 
 	var addDebit = function (client) {
