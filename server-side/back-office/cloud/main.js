@@ -12,21 +12,11 @@ Parse.Cloud.afterSave('credits', function(request) {
 	query.equalTo('credit', addedCredit);
 	query.find({
 		success: function(linesList) {
-			var amount = 0;
-			console.log("linesList: " + linesList);
-
-			for (var i = 0; i < linesList.length; i++) {
-				console.log("CreditLine: " + linesList[i]);
-				amount += (linesList[i].get('quantity')*linesList[i].get('price'));
-			};
-
 			newAccountLog.set('credit', addedCredit);
 			newAccountLog.set('client', addedCredit.get('client'));
 			newAccountLog.set('transaction_kind', 'credit');
-			newAccountLog.set('amount', amount);
-
+			newAccountLog.set('amount', addedCredit.get('amount'));
 			newAccountLog.save();
-
 		},
 		error: function() {
 			return false;
@@ -35,35 +25,19 @@ Parse.Cloud.afterSave('credits', function(request) {
 });
 
 Parse.Cloud.afterSave('debits', function(request) {
-
 	var AccountLog = Parse.Object.extend('account_log');
-
 	var addedDebits = request.object;
 	var newAccountLog = new AccountLog();
 
 	newAccountLog.set('debit', addedDebits);
 	newAccountLog.set('client', addedDebits.get('client'));
-	newAccountLog.set('transaction_kind', 'debits');
+	newAccountLog.set('transaction_kind', 'debit');
 	newAccountLog.set('amount', addedDebits.get('amount'));
 	newAccountLog.save();
 
-	var Client = Parse.Object.extend('clients');
-	var currentClient = {};
-
-	var query = new Parse.Query(Client);
-    query.get(addedDebits.get('client').id, {
-      success: function(responseClient) {
-        currentClient = responseClient;
-        console.log(currentClient);
-      },
-      error: function(object, error) {
-        console.log('Ocurrió un error obteniendo cliente actual, con el codigo de error: ' + error.message);
-      }
-    }).then(function(){
-    	currentClient.set('lastCollectDate', addedDebits.get('createdAt'));
-		currentClient.save();
-    });
-
+	var currentClient = addedDebits.get('client');
+	currentClient.set('lastCollectDate', (new Date()));
+	currentClient.save();
 });
 
 Parse.Cloud.define('getClientBalance', function(request, response) {
