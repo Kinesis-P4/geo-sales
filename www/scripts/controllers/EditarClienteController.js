@@ -18,7 +18,7 @@ angular.module('Geosales')
 				console.log('Ocurrió un error obteniendo cliente actual, con el codigo de error: ' + error.message);
 			}
 	    });
-	  });
+	});
 
   	$scope.updateClient = function() {
       	var defaultPoint = new Parse.GeoPoint({latitude: 0, longitude: 0});
