@@ -1,7 +1,15 @@
-	<ion-view title="Rutas de Cobro" left-buttons="leftButtons">
-			<ion-content has-header="true" scroll="false">
+	<ion-view title="Rutas de Cobro">
+			<ion-content has-header="false" scroll="true">
 				<!-- map directive-->
-				<app-map style="height:400px;margin:12px;box-shadow:0 3px 25px black;" center="whoiswhere" zoom="15" markers="whoiswhere"> 
+				<app-map style="height:400px;margin:12px;box-shadow:0 3px 25px black;" center="whoiswhere" zoom="17" markers="whoiswhere"> 
 				</app-map>
+				<ion-list class="list" >
+		        		<ion-item ng-repeat="cliente in whoiswhere | orderBy: cliente.name | filter : query" cliente="cliente">
+							<div class="item item-text-wrap">
+								<p><strong>{{cliente.name}} {{cliente.lastName}}</strong></p>
+								<p><span>Teléfono:</span> <a href="tel:({{cliente.phone}})">{{cliente.phone}}</a></p>
+							</div>
+		        		</ion-item>
+		    		</ion-list>
 			</ion-content>
 	</ion-view>

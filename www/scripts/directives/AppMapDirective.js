@@ -5,12 +5,7 @@ angular.module('Geosales')
  * Handle Google Maps API V3+
  */
 // - Documentation: https://developers.google.com/maps/documentation/
-.directive("appMap", function ($window, $scope) {
-
-	navigator.geolocation.getCurrentPosition(function(position) {
-	    $scope.currentPosition=position;
-	}
-
+.directive("appMap", function ($window) {
 
     return {
         restrict: "E",
@@ -62,7 +57,7 @@ angular.module('Geosales')
 				console.log("map: create map start");
 				var mapOptions = {
 					zoom: 13, 
-					center: new google.maps.LatLng($scope.currentPosition.coords.latitude, $scope.currentPosition.coords.longitude),
+					center: new google.maps.LatLng(9.942142, -84.104141),
 					mapTypeId: google.maps.MapTypeId.ROADMAP,
 					panControl: true,
 					zoomControl: true,
@@ -93,7 +88,7 @@ angular.module('Geosales')
 			// Info window trigger function 
 			function onItemClick(pin, label, datum, url) { 
 				// Create content  
-				var contentString = "Name: " + label + "<br />Time: " + datum;
+				var contentString = label;
 				// Replace our Info Window's content and position
 				infowindow.setContent(contentString);
 				infowindow.setPosition(pin.position);
