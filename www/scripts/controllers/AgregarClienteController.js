@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('Geosales')
-  .controller('AgregarClienteController', ['$scope', '$rootScope', 'ClientesServices','$state','$stateParams', function ContentCtrl($scope, $rootScope, ClientesServices, $state, $stateParams) {
+  .controller('AgregarClienteController', ['$scope', '$rootScope', 'ClientesServices','$state','$stateParams', '$ionicPopup', '$location', function ContentCtrl($scope, $rootScope, ClientesServices, $state, $stateParams, $ionicPopup, $location) {
 
 	$scope.cliente = {name:'', lastName:'', email:'', phone:'', collectDate:15};
 
@@ -14,13 +14,16 @@ angular.module('Geosales')
 		newClient.set('lastName', $scope.cliente.lastName);
 		newClient.set('email', $scope.cliente.email);
 		newClient.set('phone', $scope.cliente.phone+"");
+		newClient.set('lastCollectDate', new Date());
 		newClient.set('collectDate', $scope.cliente.collectDate);
 		newClient.set('location', defaultPoint);
 		newClient.set('user', Parse.User._currentUser);
-
-		newClient.save();
-
-		//Redireccionar a la pantalla del cliente recien creado
-  	};
+		newClient.save({
+			success: function(newClient){
+				alert('El cliente fue agregado correctamente.');
+				window.history.back();
+			}
+		});
+  	};  	
 
 }]);

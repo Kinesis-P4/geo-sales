@@ -1,5 +1,14 @@
 <ion-view title="Pendientes">
-	<ion-content>
-	  <p>Prueba de Redireccion a Pendientes con archivo independiente</p>
+	<div class="item item-text-wrap" style="margin-top: 43px">
+		<p>Lista de clientes con pendientes</p>
+	</div>
+	<ion-content style="margin-top: 50px">
+		<div class="list">
+			<a ng-repeat="cliente in clientes | orderBy: cliente.lastCollectDate | filter : query" cliente="cliente" class="item item-icon-left item-icon-right" href="tel:{{cliente.phone}}">
+				<i class="icon ion-person"></i>
+				<p><strong>{{cliente.name}} {{cliente.lastName}}</strong></p>
+				<i class="icon ion-ios7-telephone"></i>
+			</a>
+		</div>
 	</ion-content>
 </ion-view>

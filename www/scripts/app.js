@@ -17,7 +17,7 @@ angular.module('Geosales', ['ionic', 'config'])
       views: {
         'inicio-tab': {
           templateUrl: 'views/inicio.html',
-          controller: 'InicioTabCtrl'
+          controller: 'InicioController'
         }
       }
     })
@@ -48,6 +48,15 @@ angular.module('Geosales', ['ionic', 'config'])
         }
       }
     })
+    .state('tabs.editar-cliente', {
+      url: '/cliente/:id/editar-cliente',
+      views: {
+        'clientes-tab': {
+          templateUrl: 'views/editar-cliente.html',
+          controller: 'EditarClienteController'
+        }
+      }
+    })
     .state('tabs.agregar-credito', {
       url: '/cliente/:id/agregar-credito',
       views: {
@@ -61,7 +70,8 @@ angular.module('Geosales', ['ionic', 'config'])
       url: '/pendientes',
       views: {
         'pendientes-tab': {
-          templateUrl: 'views/pendientes.html'
+          templateUrl: 'views/pendientes.html',
+          controller: 'PendientesController'
         }
       }
     })
@@ -83,7 +93,8 @@ angular.module('Geosales', ['ionic', 'config'])
     })
     .state('configuracion', {
       url: '/configuracion',
-      templateUrl: 'views/configuracion.html'
+      templateUrl: 'views/configuracion.html',
+      controller: 'ConfigurationController'
     });
 
 

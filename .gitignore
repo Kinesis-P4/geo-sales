@@ -1,7 +1,10 @@
+.gitignore
+Gruntfile.js
 node_modules/
 bower_components/
 *.log
 .sass-cache/
+.tmp/
 build/
 dist/
 plugins/

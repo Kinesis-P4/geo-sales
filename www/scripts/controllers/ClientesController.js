@@ -1,29 +1,36 @@
 'use strict';
 
 angular.module('Geosales')
-  .controller('ClientesController', ['$scope', 'ClientesServices', function ContentCtrl($scope, ClientesServices) {
-
-  	$scope.daysList = [
-		{ text: "Lunes", checked: false },
-	    { text: "Martes", checked: false },
-	    { text: "Miércoles", checked: false },
-	    { text: "Jueves", checked: false },
-	    { text: "Viernes", checked: false },
-	    { text: "Sábado", checked: false },
-	    { text: "Domingo", checked: false }
-	];
-	$scope.hoursList = [
-		{ text: "Mañana", checked: false },
-	    { text: "Tarde", checked: false },
-	    { text: "Noche", checked: false },	    
-	];
+  .controller('ClientesController', ['$scope', 'ClientesServices', '$stateParams', function ContentCtrl($scope, ClientesServices, $stateParams) {
 	
   	$scope.clientes = [];
 
-    ClientesServices.getAll().success(function(data){
-        $scope.clientes=data.results;
+    $scope.$on('$viewContentLoaded', function(){
+        $scope.updateClientes();
     });
 
+    $scope.updateClientes = function() {
 
+        var Client = Parse.Object.extend('clients');
+        var query = new Parse.Query(Client);
+        var clientsResults = [];
 
+        query.equalTo('user', Parse.User._currentUser);
+        query.find({
+            success: function(results) {
+                $scope.clientes = [];
+                for (var i = 0; i < results.length; i++) {
+                    results[i].attributes.id = results[i].id;
+                    $scope.clientes.push(results[i].attributes);
+                };
+            }
+        },{
+            error: function(error) {
+                console.log('Hubo un error con la conexion.');
+            }
+        });
+    };
+
+    $scope.updateClientes();
+    
 }]);
