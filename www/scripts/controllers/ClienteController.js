@@ -46,6 +46,7 @@ angular.module('Geosales').controller('ClienteController', ['$scope', 'ClientesS
 		query.find({
 			success: function(logs) {
 				$scope.transactions = logs;
+        $scope.$apply();
 			},
 			error: function() {
 				console.log('Error getting the transaction logs');
@@ -60,6 +61,7 @@ angular.module('Geosales').controller('ClienteController', ['$scope', 'ClientesS
     query.find({
       success: function(lines) {
         $scope.creditLines = lines;
+        $scope.$apply();
       },
       error: function() {
         console.log('Error getting the transaction logs');

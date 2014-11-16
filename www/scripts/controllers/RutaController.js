@@ -50,6 +50,7 @@ angular.module('Geosales')
                     };
                     //console.log($scope.listaClientes);
                     $scope.whoiswhere = $scope.listaClientes;
+                    $scope.$apply();
                 }
             },{
                 error: function(error) {
