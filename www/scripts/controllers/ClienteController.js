@@ -13,12 +13,38 @@ angular.module('Geosales').controller('ClienteController', ['$scope', 'ClientesS
 
   $scope.cliente = {};
   $scope.clienteLoaded = {};
+  $scope.enviarCorreo = function(){
+    
+    var comprasHTML = "Estado de Cuenta \n \n"
+    comprasHTML += "A continuacion el estado de cuenta a la fecha " + $scope.getFecha(new Date()) + " para el cliente " + $scope.cliente.attributes.name + " " + $scope.cliente.attributes.lastName + ". \n \n";
+    for(var i = 0; i < $scope.transactions.length; i++){
+      if($scope.transactions[i].attributes.transaction_kind === "credit"){
+        comprasHTML += "- Compra: " + $scope.transactions[i].attributes.amount + "\n";
+        comprasHTML += "Fecha: " + $scope.getFecha(new Date($scope.transactions[i].attributes.credit.createdAt)) + "\n \n";
+      }else if($scope.transactions[i].attributes.transaction_kind === "debit"){
+        comprasHTML += "- Abono: " + $scope.transactions[i].attributes.amount + "\n";
+        comprasHTML += "Fecha: " + $scope.getFecha(new Date($scope.transactions[i].attributes.debit.createdAt)) + "\n \n";
+      }
+    }
+    comprasHTML += "- Saldo: " + $scope.getSaldo() + "\n";
+    var link = "mailto:" + $scope.cliente.attributes.email
+             + "?subject=" + escape("Estado de cuenta")
+             + "&body=" + escape(comprasHTML)
+    ;
+
+    window.location.href = link;
+  };
 
   $scope.$on('$viewContentLoaded', function(){
     $scope.getClient();
     $scope.getTransactions();
     //$scope.getBalance();
   });
+
+  $scope.getFecha = function(date){
+    var fecha = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes();
+    return fecha;
+  }
 
   $scope.getClient = function() {
     var query = new Parse.Query(Client);
