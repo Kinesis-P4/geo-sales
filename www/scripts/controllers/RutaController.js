@@ -42,7 +42,7 @@ angular.module('Geosales')
                 success: function(results) {
                     for (var i = 0; i < results.length; i++) {
                         clientLocation = {};
-                        clientLocation.name = (results[i].get('name') + ' ' +results[i].get('lastName'));
+                        clientLocation.name = (results[i].get('name') + ' ' +results[i].get('lastName')) + '(Saldo: ' + + ')');
                         clientLocation.phone = results[i].get('phone');
                         clientLocation.lat = results[i].get('location').latitude;
                         clientLocation.lon = results[i].get('location').longitude;
@@ -75,7 +75,26 @@ angular.module('Geosales')
             //$scope.updateClientes();
 
             //$scope.updateClientes();    
+        });
+        $scope.getTransactions = function() {
+            var Log = Parse.Object.extend('account_log');
+            var query = new Parse.Query(Log);
+            query.ascending('updatedAt');
+            query.include('client');
+            query.include('debit');
+            query.include('credit');
+            query.include('createdAt');
+            query.equalTo('client', $scope.cliente);
+            query.find({
+                success: function(logs) {
+                    $scope.transactions = logs;
+            $scope.$apply();
+                },
+                error: function() {
+                    console.log('Error getting the transaction logs');
+                }
             });
+      };
 
 
 

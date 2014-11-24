@@ -35,6 +35,26 @@ angular.module('Geosales').controller('ClienteController', ['$scope', 'ClientesS
     window.location.href = link;
   };
 
+  $scope.eliminarCliente = function(){
+    var saldoClienteEliminar = $scope.getSaldo();
+    if(saldoClienteEliminar > 0)
+    {
+      alert("No se puede borrar un cliente que tenga saldo pendiente.");
+    }
+    else
+    {
+      $scope.cliente.destroy({
+        success: function(){
+          alert("El cliente fue eliminado correctamente.");
+          window.history.back();
+        },
+        error: function(cliente, error){
+          alert("Ocurrió un error eliminando el cliente. " + error.message);
+        }
+      })
+    }
+  };
+
   $scope.$on('$viewContentLoaded', function(){
     $scope.getClient();
     $scope.getTransactions();
