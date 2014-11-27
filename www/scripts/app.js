@@ -79,7 +79,8 @@ angular.module('Geosales', ['ionic', 'config'])
       url: '/rutas',
       views: {
         'rutas-tab': {
-          templateUrl: 'views/rutas.html'
+          templateUrl: 'views/rutas.html',
+          controller: 'RutaController'
         }
       }
     })
