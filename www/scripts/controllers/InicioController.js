@@ -29,7 +29,6 @@ angular.module('Geosales')
                         $scope.clientes.push(results[i].attributes);
                     }
                 };
-                $scope.$apply();
             }
         },{
             error: function(error) {

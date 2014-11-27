@@ -6,7 +6,7 @@ angular.module('Geosales')
   	$scope.clientes = [];
 
     $scope.$on('$viewContentLoaded', function(){
-        //$scope.updateClientes();
+        $scope.updateClientes();
     });
 
     $scope.updateClientes = function() {
@@ -23,7 +23,6 @@ angular.module('Geosales')
                     results[i].attributes.id = results[i].id;
                     $scope.clientes.push(results[i].attributes);
                 };
-                $scope.$apply();
             }
         },{
             error: function(error) {
