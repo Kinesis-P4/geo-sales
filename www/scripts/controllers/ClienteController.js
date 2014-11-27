@@ -37,12 +37,9 @@ angular.module('Geosales').controller('ClienteController', ['$scope', 'ClientesS
 
   $scope.eliminarCliente = function(){
     var saldoClienteEliminar = $scope.getSaldo();
-    if(saldoClienteEliminar > 0)
-    {
+    if(saldoClienteEliminar > 0) {
       alert("No se puede borrar un cliente que tenga saldo pendiente.");
-    }
-    else
-    {
+    } else {
       $scope.cliente.destroy({
         success: function(){
           alert("El cliente fue eliminado correctamente.");
@@ -51,14 +48,13 @@ angular.module('Geosales').controller('ClienteController', ['$scope', 'ClientesS
         error: function(cliente, error){
           alert("Ocurrió un error eliminando el cliente. " + error.message);
         }
-      })
+      });
     }
   };
 
   $scope.$on('$viewContentLoaded', function(){
     $scope.getClient();
     $scope.getTransactions();
-    //$scope.getBalance();
   });
 
   $scope.getFecha = function(date){
@@ -160,20 +156,28 @@ angular.module('Geosales').controller('ClienteController', ['$scope', 'ClientesS
 		}
 	};
 
-	$scope.showPopup = function(){
-		var myPopup = $ionicPopup.show({
-			templateUrl: 'popupCredito.html',
-			title: 'Agregar abono',
-			subTitle: 'Ingrese el monto a abonar',
-			scope: $scope,
-			buttons: [
-				{ text: 'Cancelar' , type: 'button-positive' },
-				{ text: 'Acreditar', type: 'button-positive',
-					onTap: function(e) {
-						submitDebit();
-					}
-				}
-			]
-		});
+	$scope.showPopup = function(payAll){
+    if(payAll) {
+      $scope.data.deposit = $scope.getSaldo();
+    }
+
+    if(payAll && $scope.data.deposit<0) {
+      window.alert('El cliente no tiene saldos pendientes.');
+    } else {
+      var myPopup = $ionicPopup.show({
+        templateUrl: 'popupCredito.html',
+        title: 'Agregar abono',
+        subTitle: 'Ingrese el monto a abonar',
+        scope: $scope,
+        buttons: [
+          { text: 'Cancelar' , type: 'button-positive' },
+          { text: 'Acreditar', type: 'button-positive',
+            onTap: function(e) {
+              submitDebit();
+            }
+          }
+        ]
+      });
+    }
 	};
 }]);
