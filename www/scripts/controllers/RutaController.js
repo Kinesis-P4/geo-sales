@@ -42,15 +42,15 @@ angular.module('Geosales')
                 success: function(results) {
                     for (var i = 0; i < results.length; i++) {
                         clientLocation = {};
-                        clientLocation.name = (results[i].get('name') + ' ' +results[i].get('lastName') + '(Saldo: )');
+                        clientLocation.name = (results[i].get('name') + ' ' +results[i].get('lastName'));
                         clientLocation.phone = results[i].get('phone');
                         clientLocation.lat = results[i].get('location').latitude;
                         clientLocation.lon = results[i].get('location').longitude;
+                        
                         $scope.listaClientes.push(clientLocation);
                     };
                     //console.log($scope.listaClientes);
                     $scope.whoiswhere = $scope.listaClientes;
-                    $scope.$apply();
                 }
             },{
                 error: function(error) {
