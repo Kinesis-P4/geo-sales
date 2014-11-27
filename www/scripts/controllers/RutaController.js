@@ -46,11 +46,11 @@ angular.module('Geosales')
                         clientLocation.phone = results[i].get('phone');
                         clientLocation.lat = results[i].get('location').latitude;
                         clientLocation.lon = results[i].get('location').longitude;
+                        
                         $scope.listaClientes.push(clientLocation);
                     };
                     //console.log($scope.listaClientes);
                     $scope.whoiswhere = $scope.listaClientes;
-                    $scope.$apply();
                 }
             },{
                 error: function(error) {
