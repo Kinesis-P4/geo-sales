@@ -27,12 +27,19 @@ angular.module('Geosales').controller('ClienteController', ['$scope', 'ClientesS
       }
     }
     comprasHTML += "- Saldo: " + $scope.getSaldo() + "\n";
-    var link = "mailto:" + $scope.cliente.attributes.email
-             + "?subject=" + escape("Estado de cuenta")
-             + "&body=" + escape(comprasHTML)
-    ;
-
-    window.location.href = link;
+    if(window.plugins && window.plugins.emailComposer) {
+            window.plugins.emailComposer.showEmailComposerWithCallback(function(result) {
+                console.log("Response -> " + result);
+            },
+            "Estado de Cuenta", // Subject
+            comprasHTML,                      // Body
+            [$scope.cliente.attributes.email],    // To
+            null,                    // CC
+            null,                    // BCC
+            false,                   // isHTML
+            null,                    // Attachments
+            null);                   // Attachment Data
+        }
   };
 
   $scope.eliminarCliente = function(){
