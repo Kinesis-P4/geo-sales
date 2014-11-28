@@ -28,6 +28,9 @@ angular.module('Geosales')
             var infowindow;
             var currentMarkers;
    	        var callbackName = 'InitMapCb';
+   	        var osInstalled; //1 for iphone 2 for android
+   	        var isWazeInstalled;
+   	        //var currOS = new MobileDetect(window.navigator.userAgent);
 
    			// callback when google maps is loaded
 			$window[callbackName] = function() {
@@ -83,7 +86,7 @@ angular.module('Geosales')
 					map = new google.maps.Map(element[0], mapOptions);
           // EDIT Added this and it works on android now
           // Stop the side bar from dragging when mousedown/tapdown on the map
-          google.maps.event.addDomListener(element[0], 'mousedown', function(e) {
+          google.maps.event.addDomListener(element[0], 'tapdown', function(e) {
             e.preventDefault();
             return false;
             });
@@ -96,10 +99,12 @@ angular.module('Geosales')
 				});
 
 			// Info window trigger function 
-			function onItemClick(pin, label, datum, url) { 
+			function onItemClick(pin, label) { 
 				// Create content  
 				var contentString = label;
 				// Replace our Info Window's content and position
+				//Aca es donde se debe agregar el link para abrir waze bien bonito
+				//infowindow.setContent('<a href="http://www.waze.com">waze</a>');
 				infowindow.setContent(contentString);
 				infowindow.setPosition(pin.position);
 				infowindow.open(map)
@@ -109,12 +114,52 @@ angular.module('Geosales')
 					});
 				} 
 
+			/*function checkWazeInstalled() {
+				return function() {
+					//para app store: openURL:[NSURL URLWithString:@"http://itunes.apple.com/us/app/id323229106"
+					//"market://details?id=com.waze" 
+					if(currOS.is('iPhone')){
+						osInstalled = 1;
+						if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"waze://"]]) {
+							isWazeInstalled = true;
+						} else {
+							isWazeInstalled = false;
+						}
+					}else{
+						/*if(currOS.is('AndroidOS')){
+							osInstalled = 2;
+							try
+							{
+	   							var url = "waze://?q=Hawaii";
+	    						Intent intent = new Intent( Intent.ACTION_VIEW, Uri.parse( url ) );
+	   							startActivity( intent );
+	   							isWazeInstalled = true;
+							}catch ( ActivityNotFoundException ex ){
+  								Intent intent = new Intent( Intent.ACTION_VIEW, Uri.parse( "market://details?id=com.waze" ) );
+  								startActivity(intent);
+  								isWazeInstalled = false;
+							}
+						}
+					}
+
+					
+
+				}
+
+			}*/
+
 			function markerCb(marker, member, location) {
 			    return function() {
 					//console.log("map: marker listener for " + member.name);
-					var href="http://maps.apple.com/?q="+member.lat+","+member.lon;
+
+					//se genera el link para waze. falta agregar que si waze no existe en android
+					//o iphone mande a instalarlo
+					//checkWazeInstalled();
+					var href="waze://?ll=" +member.lat + "," + member.lon + "&navigate=yes";
+					var tagLink = '<a href="' + href + '">' + member.name + '</a>';
 					map.setCenter(location);
-					onItemClick(marker, member.name, member.date, href);
+					//onItemClick(marker, member.name, member.date, href);
+					onItemClick(marker, tagLink);
 					};
 				}
 
