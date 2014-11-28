@@ -53,11 +53,21 @@ angular.module('Geosales')
 				$window.document.body.appendChild(script);
 				}
 
-			function createMap() {
+			function createMap(position) {
 				console.log("map: create map start");
+				navigator.geolocation.getCurrentPosition(function(position) {
+			      var pos = new google.maps.LatLng(position.coords.latitude,
+			                                       position.coords.longitude);
+			      var infowindow = new google.maps.InfoWindow({
+			        map: map,
+			        position: pos,
+			        content: 'Su ubicación.'
+			      });
+			      map.setCenter(pos);
+			    });
 				var mapOptions = {
 					zoom: 13, 
-					center: new google.maps.LatLng(9.942142, -84.104141),
+					//center: new google.maps.LatLng(position.coords.latitude, position.coords.longitude),
 					mapTypeId: google.maps.MapTypeId.ROADMAP,
 					panControl: true,
 					zoomControl: true,

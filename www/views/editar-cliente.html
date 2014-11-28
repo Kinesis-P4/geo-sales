@@ -13,6 +13,18 @@
 		<label class="item item-input">
 			<input type="text" placeholder="Teléfono" ng-model="cliente.phone">
 		</label>
+		<ul class="list">
+	      <li class="item item-toggle">
+	        ¿Actualizar ubicación?
+	        <label class="toggle toggle-assertive">
+	          <input type="checkbox" ng-model="cliente.saveLocation">
+	            <div class="track">
+	              <div class="handle"></div>
+	            </div>
+	        </label>
+	      </li>
+	    </ul>
+		
 		<!--<label class="item item-input">
 			<input type="text" placeholder="Identificacion" ng-model="cliente.Id">
 		</label> -->
