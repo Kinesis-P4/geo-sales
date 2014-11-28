@@ -23,8 +23,7 @@ angular.module('Geosales')
             success: function(results) {
                 $scope.clientes = [];
                 for (var i = 0; i < results.length; i++) {
-                    console.log(results[i].get('lastCollectDate').getTime());
-                    if(limitDate < results[i].get('lastCollectDate').getTime()){
+                    if(limitDate > results[i].get('lastCollectDate').getTime()){
                         results[i].attributes.id = results[i].id;
                         $scope.clientes.push(results[i].attributes);
                     }
