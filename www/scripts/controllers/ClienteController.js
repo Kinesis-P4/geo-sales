@@ -13,6 +13,7 @@ angular.module('Geosales').controller('ClienteController', ['$scope', 'ClientesS
 
   $scope.cliente = {};
   $scope.clienteLoaded = {};
+
   $scope.enviarCorreo = function(){
     
     var comprasHTML = "Estado de Cuenta \n \n"
@@ -96,10 +97,9 @@ angular.module('Geosales').controller('ClienteController', ['$scope', 'ClientesS
 		});
   };
 
-  $scope.getCreditLines = function(credit) {
+  $scope.getCreditLines = function() {
     var Lines = Parse.Object.extend('credit_lines');
     var query = new Parse.Query(Lines);
-    query.equalTo('credit', credit);
     query.find({
       success: function(lines) {
         $scope.creditLines = lines;
@@ -108,9 +108,10 @@ angular.module('Geosales').controller('ClienteController', ['$scope', 'ClientesS
       error: function() {
         console.log('Error getting the transaction logs');
       }
+    }).then(function() {
+       setTimeout(setTransactionDetail, 100);
     });
   };
-
 
   $scope.getTime = function(date) {
     return date.getTime();
@@ -130,7 +131,26 @@ angular.module('Geosales').controller('ClienteController', ['$scope', 'ClientesS
     return saldo;
   };
 
+  var setTransactionDetail = function() {
+    for (var i = 0; i < $scope.transactions.length; i++) {
+      if($scope.transactions[i].get('transaction_kind') == 'credit') {
+        $scope.transactions[i].attributes.detail = getCreditDetail($scope.transactions[i].get('credit'));
+        $scope.$apply();
+      }
+    };
+    $scope.$apply();
+  };
 
+  var getCreditDetail = function(credit) {
+    var detail = '';
+    for (var i = 0; i < $scope.creditLines.length; i++) {
+      if ($scope.creditLines[i].get('credit').id == credit.id) {
+        detail += ($scope.creditLines[i].get('quantity') + " " + $scope.creditLines[i].get('name') + " ");
+      }
+    }
+    $scope.$apply();
+    return detail;
+  };
 
 	var submitDebit = function() {
 		addDebit($scope.cliente);
