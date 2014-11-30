@@ -5,6 +5,8 @@ angular.module('Geosales')
     function ContentCtrl($scope, ClientesServices, $stateParams) {
     
     $scope.clientes = [];
+    $scope.clientesPendientes = [];
+    $scope.clientesAldia = [];
 
     $scope.$on('$viewContentLoaded', function(){
         $scope.updateClientesPendientes();
@@ -21,13 +23,25 @@ angular.module('Geosales')
         query.equalTo('user', Parse.User._currentUser);
         query.find({
             success: function(results) {
+                
                 $scope.clientes = [];
+                $scope.clientesPendientes = [];
+                $scope.clientesAldia = [];
+
                 for (var i = 0; i < results.length; i++) {
-                    if(limitDate > results[i].get('lastCollectDate').getTime()){
+
+                    if(limitDate > results[i].get('lastCollectDate').getTime()) {
                         results[i].attributes.id = results[i].id;
-                        $scope.clientes.push(results[i].attributes);
+                        $scope.clientesPendientes.push(results[i].attributes);
                     }
+
+                    if(limitDate <= results[i].get('lastCollectDate').getTime()) {
+                        results[i].attributes.id = results[i].id;
+                        $scope.clientesAldia.push(results[i].attributes);
+                    }
+
                 };
+                
                 $scope.$apply();
             }
         },{

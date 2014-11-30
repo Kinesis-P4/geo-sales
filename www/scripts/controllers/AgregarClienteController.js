@@ -3,7 +3,12 @@
 angular.module('Geosales')
   .controller('AgregarClienteController', ['$scope', '$rootScope', 'ClientesServices','$state','$stateParams', '$ionicPopup', '$location', function ContentCtrl($scope, $rootScope, ClientesServices, $state, $stateParams, $ionicPopup, $location) {
 
+  	$scope.currentPosition = {};
 	$scope.cliente = {name:'', lastName:'', email:'', phone:'', collectDate:15};
+
+  	$scope.$on('$viewContentLoaded', function(){
+	    getCurrentLocation();
+	});
 
 	var getCurrentLocation = function() {
   		navigator.geolocation.getCurrentPosition(function(position) {
