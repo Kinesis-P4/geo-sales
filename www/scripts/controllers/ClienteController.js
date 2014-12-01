@@ -6,7 +6,7 @@ angular.module('Geosales').controller('ClienteController', ['$scope', 'ClientesS
   var Client = Parse.Object.extend('clients');
   var Debit = Parse.Object.extend('debits');
 
-  $scope.data = {deposit:0};
+  $scope.data = {deposit:''};
   $scope.transactions = [];
   $scope.creditLines = [];
   $scope.balance = 0;
@@ -109,7 +109,7 @@ angular.module('Geosales').controller('ClienteController', ['$scope', 'ClientesS
         console.log('Error getting the transaction logs');
       }
     }).then(function() {
-       setTimeout(setTransactionDetail, 100);
+       setTimeout(setTransactionDetail, 500);
     });
   };
 
@@ -161,6 +161,11 @@ angular.module('Geosales').controller('ClienteController', ['$scope', 'ClientesS
 			var newDebit = new Debit();
 			newDebit.set('client', client);
 			newDebit.set('amount', $scope.data.deposit);
+      newDebit.set('isRefund', $scope.data.isRefund);
+      if ($scope.data.isRefund) {
+        newDebit.set('isRefund', $scope.data.isRefund);
+        newDebit.set('detail', $scope.data.detail);
+      }
 			newDebit.save(null, {
 				success: function(newDebit) {
           $scope.getTransactions();
@@ -176,16 +181,27 @@ angular.module('Geosales').controller('ClienteController', ['$scope', 'ClientesS
 		}
 	};
 
-	$scope.showPopup = function(payAll){
+	$scope.showPopup = function(payAll, isRefund){
+    var popUpTemplate = 'popupCredito.html';
+
+    $scope.data.deposit = '';
+    $scope.data.detail = '';
+    $scope.data.isRefund = false;
+
     if(payAll) {
       $scope.data.deposit = $scope.getSaldo();
+    }
+
+    if (isRefund) {
+      popUpTemplate = 'popupRefund.html';
+      $scope.data.isRefund = true;
     }
 
     if(payAll && $scope.data.deposit<0) {
       window.alert('El cliente no tiene saldos pendientes.');
     } else {
       var myPopup = $ionicPopup.show({
-        templateUrl: 'popupCredito.html',
+        templateUrl: popUpTemplate,
         title: 'Agregar abono',
         subTitle: 'Ingrese el monto a abonar',
         scope: $scope,
