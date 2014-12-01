@@ -84,15 +84,30 @@ angular.module('Geosales')
 			function markerCb(marker, member, location) {
 			    return function() {
 					var hrefGM ="http://maps.google.com/?saddr=" +member.lat + "," + member.lon + "&daddr=" + pos.k + "," + pos.B;
-					var tagLinkGoogleMaps = '<p><a href="#"  class="btn btn-lg btn-success" onClick="window.open(\'' + hrefGM + '\', \'_blank\', \'location=yes\');return false;">Google Maps</a></p>';
+					var tagLinkGoogleMaps = '<p><a href="#" onClick="window.open(\'' + hrefGM + '\', \'_blank\', \'location=yes\');return false;">Google Maps</a></p>';
 					var hrefW="http://waze://?ll=" +member.lat + "," + member.lon + "&navigate=yes";
 					var tagLinkWaze = '<p><a href="' + hrefW + '">' + 'Waze' + '</a></p>';
 					var myPopup = $ionicPopup.show({
         				templateUrl: 'popupRuta.html',
         				title: 'Visitar a ' + member.name + ' usando:',
         				subTitle: tagLinkGoogleMaps + tagLinkWaze,
+
         				buttons: [
-	          				{ text: 'Cancelar' , type: 'button-positive' }
+	          				{   text: 'Google Maps',
+						        type: 'button-positive',
+						        onTap: function(e) {
+						        	$window.open(hrefGM);
+						        	return scope;
+						        }
+						    },
+						    {   text: 'Waze',
+						        type: 'button-positive',
+						        onTap: function(e) {
+						        	$window.open(hrefW);
+						        	return scope;
+						        }
+						    },
+						    { text: 'Cancelar' , type: 'button-positive' }
         				]
       				});
 				};
