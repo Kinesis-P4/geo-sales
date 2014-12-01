@@ -1,13 +1,27 @@
 <ion-view title="Pendientes">
-	<div class="item item-text-wrap" style="margin-top: 43px">
-		<p>Lista de clientes con pendientes</p>
-	</div>
-	<ion-content style="margin-top: 50px">
+	<ion-content style="padding: 20px">
 		<div class="list">
-			<a ng-repeat="cliente in clientes | orderBy: cliente.lastCollectDate | filter : query" cliente="cliente" class="item item-icon-left item-icon-right" href="tel:{{cliente.phone}}">
+			<div class="item item-divider">
+				Clientes con pendientes
+			</div>
+			<a ng-repeat="cliente in clientesPendientes | orderBy: cliente.lastCollectDate | filter : query" cliente="cliente" class="item item-icon-left item-icon-right" href="tel:{{cliente.phone}}">
 				<i class="icon ion-person"></i>
-				<p><strong>{{cliente.name}} {{cliente.lastName}}</strong></p>
-				<i class="icon ion-ios7-telephone"></i>
+				<p>
+					<strong>{{cliente.name}} {{cliente.lastName}}</strong>
+				</p>
+				<i class="icon ion-ios7-telephone" style="color: rgb(17, 189, 17);"></i>
+			</a>
+		</div>
+		<div class="list">
+			<div class="item item-divider">
+				Clientes al día
+			</div>
+			<a ng-repeat="cliente in clientesAldia | orderBy: cliente.lastCollectDate | filter : query" cliente="cliente" class="item item-icon-left item-icon-right" href="tel:{{cliente.phone}}">
+				<i class="icon ion-person"></i>
+				<p>
+					<strong>{{cliente.name}} {{cliente.lastName}}</strong>
+				</p>
+				<i class="icon ion-ios7-telephone" style="color: rgb(17, 189, 17);"></i>
 			</a>
 		</div>
 	</ion-content>
