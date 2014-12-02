@@ -16,6 +16,7 @@ angular.module('Geosales')
         var clientsResults = [];
 
         query.equalTo('user', Parse.User._currentUser);
+        query.ascending('name');
         query.find({
             success: function(results) {
                 $scope.clientes = [];

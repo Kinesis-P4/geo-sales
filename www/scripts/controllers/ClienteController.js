@@ -13,6 +13,7 @@ angular.module('Geosales').controller('ClienteController', ['$scope', 'ClientesS
 
   $scope.cliente = {};
   $scope.clienteLoaded = {};
+
   $scope.enviarCorreo = function(){
     
     var comprasHTML = "Estado de Cuenta \n \n"
@@ -27,12 +28,19 @@ angular.module('Geosales').controller('ClienteController', ['$scope', 'ClientesS
       }
     }
     comprasHTML += "- Saldo: " + $scope.getSaldo() + "\n";
-    var link = "mailto:" + $scope.cliente.attributes.email
-             + "?subject=" + escape("Estado de cuenta")
-             + "&body=" + escape(comprasHTML)
-    ;
-
-    window.location.href = link;
+    if(window.plugins && window.plugins.emailComposer) {
+            window.plugins.emailComposer.showEmailComposerWithCallback(function(result) {
+                console.log("Response -> " + result);
+            },
+            "Estado de Cuenta", // Subject
+            comprasHTML,                      // Body
+            [$scope.cliente.attributes.email],    // To
+            null,                    // CC
+            null,                    // BCC
+            false,                   // isHTML
+            null,                    // Attachments
+            null);                   // Attachment Data
+        }
   };
 
   $scope.eliminarCliente = function(){
@@ -40,17 +48,73 @@ angular.module('Geosales').controller('ClienteController', ['$scope', 'ClientesS
     if(saldoClienteEliminar > 0) {
       alert("No se puede borrar un cliente que tenga saldo pendiente.");
     } else {
-      $scope.cliente.destroy({
-        success: function(){
-          alert("El cliente fue eliminado correctamente.");
-          window.history.back();
+      var myPopup = $ionicPopup.show({
+        templateUrl: 'popupRuta.html',
+        title: 'Eliminar al cliente ' + $scope.cliente.attributes.name + ' ' + $scope.cliente.attributes.lastName + '?',
+        buttons: 
+        [{   
+          text: 'Sí',
+          type: 'button-positive',
+          onTap: function(e) {
+            $scope.cliente.destroy({
+                success: function(){
+                alert("El cliente fue eliminado correctamente.");
+                window.history.back();
+              },
+              error: function(cliente, error){
+                alert("Ocurrió un error eliminando el cliente. " + error.message);
+              }
+            });
+          }
         },
-        error: function(cliente, error){
-          alert("Ocurrió un error eliminando el cliente. " + error.message);
-        }
-      });
+        {   text: 'No',
+          type: 'button-positive',
+          onTap: function(e) {
+           //Do nothing
+          }
+        }]
+      });      
     }
   };
+  $scope.navegarACliente = function() 
+  {
+    var pos;
+    navigator.geolocation.getCurrentPosition(function(position) {
+      pos = new google.maps.LatLng(position.coords.latitude,
+                                       position.coords.longitude);     
+    });
+
+    var hrefGM ="http://maps.google.com/?saddr=" +pos.k + "," + pos.B + "&daddr=" + $scope.cliente.attributes.location.latitude + "," + $scope.cliente.attributes.location.longitude;
+    var tagLinkGoogleMaps = '<p><a href="#" onClick="window.open(\'' + hrefGM + '\', \'_blank\', \'location=yes\');return false;">Google Maps</a></p>';
+    var hrefW="http://waze://?ll=" +$scope.cliente.attributes.location.latitude + "," + $scope.cliente.attributes.location.longitude + "&navigate=yes";
+    var tagLinkWaze = '<p><a href="' + hrefW + '">' + 'Waze' + '</a></p>';
+    var myPopup = $ionicPopup.show({
+      templateUrl: 'popupRuta.html',
+      title: 'Visitar a ' + $scope.cliente.attributes.name + ' ' + $scope.cliente.attributes.lastName + ' usando:',
+      subTitle: tagLinkGoogleMaps + tagLinkWaze,
+
+      buttons: [
+      { 
+        text: 'Google Maps',
+        type: 'button-positive',
+        onTap: function(e) {
+          $window.open(hrefGM);
+          //return scope;
+        }
+      },
+      {   
+        text: 'Waze',
+        type: 'button-positive',
+        onTap: function(e) {
+          $window.open(hrefW);
+          //return scope;
+        }
+      },
+      { text: 'Cancelar' , type: 'button-positive' }
+      ]
+    });
+
+  }
 
   $scope.$on('$viewContentLoaded', function(){
     $scope.getClient();
@@ -96,10 +160,9 @@ angular.module('Geosales').controller('ClienteController', ['$scope', 'ClientesS
 		});
   };
 
-  $scope.getCreditLines = function(credit) {
+  $scope.getCreditLines = function() {
     var Lines = Parse.Object.extend('credit_lines');
     var query = new Parse.Query(Lines);
-    query.equalTo('credit', credit);
     query.find({
       success: function(lines) {
         $scope.creditLines = lines;
@@ -108,9 +171,10 @@ angular.module('Geosales').controller('ClienteController', ['$scope', 'ClientesS
       error: function() {
         console.log('Error getting the transaction logs');
       }
+    }).then(function() {
+       setTimeout(setTransactionDetail, 100);
     });
   };
-
 
   $scope.getTime = function(date) {
     return date.getTime();
@@ -130,7 +194,26 @@ angular.module('Geosales').controller('ClienteController', ['$scope', 'ClientesS
     return saldo;
   };
 
+  var setTransactionDetail = function() {
+    for (var i = 0; i < $scope.transactions.length; i++) {
+      if($scope.transactions[i].get('transaction_kind') == 'credit') {
+        $scope.transactions[i].attributes.detail = getCreditDetail($scope.transactions[i].get('credit'));
+        $scope.$apply();
+      }
+    };
+    $scope.$apply();
+  };
 
+  var getCreditDetail = function(credit) {
+    var detail = '';
+    for (var i = 0; i < $scope.creditLines.length; i++) {
+      if ($scope.creditLines[i].get('credit').id == credit.id) {
+        detail += ($scope.creditLines[i].get('quantity') + " " + $scope.creditLines[i].get('name') + " ");
+      }
+    }
+    $scope.$apply();
+    return detail;
+  };
 
 	var submitDebit = function() {
 		addDebit($scope.cliente);
