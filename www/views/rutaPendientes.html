@@ -1,6 +1,7 @@
 <ion-view title="Rutas de Cobro">
 	<ion-content data-tap-disable="true">
-		<div id="map-canvas" style="height:400px; width: 100%;margin:0px;padding:0px;" data-tap-disabled="true"></div>
+		<p>{{log}}</p>
+		<div id="map-canvas" style="height:350px; width: 100%;margin:0px;padding:0px;" data-tap-disabled="true"></div>
 		<div class="list card">
 			<label class="item item-radio item-icon-left" ng-repeat="cliente in clientes" ng-click="displayCliente(cliente)">
 				<input type="radio" name="clientes">

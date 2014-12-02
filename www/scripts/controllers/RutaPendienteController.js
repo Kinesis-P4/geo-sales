@@ -6,6 +6,7 @@ angular.module('Geosales')
 
   $scope.currentPosition = null;
   $scope.clientes = [];
+  $scope.log = '';
 
   var map;
   var directionsDisplay;
@@ -19,6 +20,7 @@ angular.module('Geosales')
   });
 
   var initialize = function() {
+
     // Instantiate a directions service.
     directionsService = new google.maps.DirectionsService();
     var currentPos = new google.maps.LatLng($scope.currentPosition.latitude, $scope.currentPosition.longitude);
@@ -140,10 +142,6 @@ angular.module('Geosales')
     });
   };
 
-  $scope.openGoogleMaps = function(link) {
-    window.open(link, '_top', 'location=yes');
-  };
-
   $scope.displayCliente = function(cliente) {
     infowindow.setContent(cliente.windowContent);
     infowindow.open(map,cliente.marker);
@@ -160,14 +158,16 @@ angular.module('Geosales')
   };
 
   var getInfoWindowForClient = function (cliente) {
-    var link = 'http://maps.google.com/?saddr=' + $scope.currentPosition.latitude + ',' + $scope.currentPosition.longitude + '&daddr=' + cliente.get('location').latitude + ',' + cliente.get('location').longitude;
+    // var link = 'window.open(\'http://maps.google.com/?saddr=' + $scope.currentPosition.latitude + ',' + $scope.currentPosition.longitude + '&daddr=' + cliente.get('location').latitude + ',' + cliente.get('location').longitude+'\', \'_system\', \'location=yes\'); return false;';
+    var link = "window.open('http://maps.google.com/?saddr=9.9020078,-83.9942822&daddr=9.9322946,-84.0545796', '_system', 'location=yes'); return false;"
     var contentString = '<div style="width:100px">' +
       '<p style="margin:0;"><strong>'+ cliente.get('name') + ' ' + cliente.get('lastName')+'</strong></p>'+
-      '<a href="" ng-click="openGoogleMaps(\''+link+'\')" class="icon ion-model-s" style="color: #145fd7; font-size: 30px; margin-right: 10px;"></a>'+
+      '<a href="" onclick="'+link+'" class="icon ion-model-s" style="color: #145fd7; font-size: 30px; margin-right: 10px;"></a>'+
       '<a href="tel:'+ cliente.get('phone') +'" class="icon ion-ios7-telephone" style="color: #145fd7; font-size: 30px;"></a>'+
       //Se debe de agregar la funcionalidad de agregar abono
       //'<a ng-click="openGoogleMaps()" class="icon ion-model-s" style="color: #145fd7; font-size: 30px;"></a>'+
     '</div>';
+    console.log(contentString);
     var compiled = $compile(contentString)($scope);
     return compiled[0];
   };
