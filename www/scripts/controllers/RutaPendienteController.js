@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('Geosales')
-    .controller('RutaPendienteController', ['$scope','$ionicPlatform', '$location', '$ionicLoading',
-    function($scope, $ionicPlatform, $location, $ionicLoading) {
+    .controller('RutaPendienteController', ['$scope','$ionicPlatform', '$location', '$ionicLoading', '$compile',
+    function($scope, $ionicPlatform, $location, $ionicLoading, $compile) {
 
   $scope.currentPosition = null;
   $scope.clientes = [];
@@ -11,11 +11,11 @@ angular.module('Geosales')
   var directionsDisplay;
   var directionsService;
   var stepDisplay;
+  var infowindow = new google.maps.InfoWindow({content: ''});
   var markerArray = [];
 
   $scope.$on('$viewContentLoaded', function(){
     getCurrentPosition();
-    $scope.updateClientes();
   });
 
   var initialize = function() {
@@ -24,18 +24,25 @@ angular.module('Geosales')
     var currentPos = new google.maps.LatLng($scope.currentPosition.latitude, $scope.currentPosition.longitude);
     var mapOptions = {
       zoom: 13,
-      center: currentPos
+      center: currentPos,
+      streetViewControl: false,
+      scaleControll: true,
+      overviewMapControl: true,
+      navigationControl: true,
+      panControl: false,
+      disableDefaultUI: true,
+      mapTypeControl: true,
+      mapMaker: true
     }
     map = new google.maps.Map(window.document.getElementById('map-canvas'), mapOptions);
 
-      // Create a renderer for directions and bind it to the map.
-      var rendererOptions = {
-        map: map
-      }
-      directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions)
+    var rendererOptions = {
+      map: map
+    };
+    directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions)
 
-    // Instantiate an info window to hold step text.
     stepDisplay = new google.maps.InfoWindow();
+    $scope.updateClientes();
     //calcRoute();
   };
 
@@ -78,12 +85,12 @@ angular.module('Geosales')
         position: myRoute.steps[i].start_location,
         map: map
       });
-      attachInstructionText(marker, myRoute.steps[i].instructions);
+      addMarker(marker, myRoute.steps[i].instructions);
       markerArray[i] = marker;
     }
   };
 
-  var attachInstructionText = function(marker, text) {
+  var addMarker = function(marker, text) {
     google.maps.event.addListener(marker, 'click', function(e) {
       stepDisplay.setContent(text);
       stepDisplay.open(map, marker);
@@ -113,6 +120,7 @@ angular.module('Geosales')
               for (var i = 0; i < results.length; i++) {
                   results[i].attributes.id = results[i].id;
                   $scope.clientes.push(results[i].attributes);
+                  addClientToMap(results[i]);
               };
               $scope.$apply();
           }
@@ -121,6 +129,40 @@ angular.module('Geosales')
               console.log('Hubo un error con la conexion.');
           }
       });
+  };
+
+  var addClientToMap = function(cliente) {
+
+
+    var currentPos = new google.maps.LatLng(cliente.get('location').latitude, cliente.get('location').longitude);
+
+    var link = 'http://maps.google.com/?saddr=' + $scope.currentPosition.latitude + ',' + $scope.currentPosition.longitude + '&daddr=' + cliente.get('location').latitude + ',' + cliente.get('location').longitude;
+
+    var contentString = '<div style="width:100px">' +
+      '<p style="margin:0;"><strong>'+ cliente.get('name') + ' ' + cliente.get('lastName')+'</strong></p>'+
+      '<a href="" ng-click="openGoogleMaps(\''+link+'\')" class="icon ion-model-s" style="color: #145fd7; font-size: 30px; margin-right: 10px;"></a>'+
+      '<a href="tel:'+ cliente.get('phone') +'" class="icon ion-ios7-telephone" style="color: #145fd7; font-size: 30px;"></a>'+
+      //Se debe de agregar la funcionalidad de agregar abono
+      //'<a ng-click="openGoogleMaps()" class="icon ion-model-s" style="color: #145fd7; font-size: 30px;"></a>'+
+    '</div>';
+
+    var compiled = $compile(contentString)($scope);
+
+    var marker = new google.maps.Marker({
+      position: currentPos,
+      map: map,
+      title: (cliente.get('name') + ' ' + cliente.get('lastName'))
+    });
+
+    google.maps.event.addListener(marker, 'click', function() {
+      infowindow.setContent(compiled[0]);
+      infowindow.open(map,marker);
+      //close other info windows
+    });
+  };
+
+  $scope.openGoogleMaps = function(link) {
+    window.open(link, '_blank', 'location=yes');
   };
 
 }]);
