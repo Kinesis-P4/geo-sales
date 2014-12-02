@@ -75,12 +75,21 @@ angular.module('Geosales', ['ionic', 'config'])
         }
       }
     })
+    // .state('tabs.rutas', {
+    //   url: '/rutas',
+    //   views: {
+    //     'rutas-tab': {
+    //       templateUrl: 'views/rutas.html',
+    //       controller: 'RutaController'
+    //     }
+    //   }
+    // })
     .state('tabs.rutas', {
       url: '/rutas',
       views: {
         'rutas-tab': {
-          templateUrl: 'views/rutas.html',
-          controller: 'RutaController'
+          templateUrl: 'views/rutaPendientes.html',
+          controller: 'RutaPendienteController'
         }
       }
     })
