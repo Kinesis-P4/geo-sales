@@ -10,7 +10,7 @@ angular.module('Geosales')
     	var query = new Parse.Query(Client);
 	    query.get($stateParams.id, {
 			success: function(responseClient) {
-				console.log(responseClient);
+				// console.log(responseClient);
 				$scope.clienteLoaded = responseClient;
 				$scope.cliente = responseClient.attributes;
 				$scope.$apply();
@@ -31,7 +31,7 @@ angular.module('Geosales')
   	};
 
   	$scope.updateClient = function() {
-  		var defaultPoint = new Parse.GeoPoint({latitude: null, longitude: null});
+  		var defaultPoint = new Parse.GeoPoint({latitude: 0, longitude: 0});
   		if($scope.cliente.saveLocation){
       		defaultPoint = new Parse.GeoPoint({latitude: $scope.currentPosition.latitude, longitude: $scope.currentPosition.longitude});
   		}
