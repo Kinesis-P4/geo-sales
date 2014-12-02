@@ -55,7 +55,6 @@ angular.module('Geosales').controller('ClienteController', ['$scope', 'ClientesS
 
   $scope.$on('$viewContentLoaded', function(){
     $scope.getClient();
-    $scope.getTransactions();
   });
 
   $scope.getFecha = function(date){
