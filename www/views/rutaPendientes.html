@@ -1,7 +1,14 @@
 <ion-view title="Rutas de Cobro">
-	<ion-content>
-		<div id="map-canvas" style="height:400px; width: 100%;margin:0px;padding:0px;"></div>
-	    <div id="warnings_panel" style="width:100%;height:10%;text-align:center"></div>
-
+	<ion-content data-tap-disable="true">
+		<div id="map-canvas" style="height:400px; width: 100%;margin:0px;padding:0px;" data-tap-disabled="true"></div>
+		<ion-list class="list" >
+    		<ion-item ng-click="getClientDirections(cliente)" ng-repeat="cliente in clientes | orderBy: cliente.lastCollectDate | filter : query" cliente="cliente">
+				<div class="item item-text-wrap">
+					<p><strong>{{cliente.name}} {{cliente.lastName}}</strong></p>
+					<p><span>Teléfono:</span> <a href="tel:({{cliente.phone}})">{{cliente.phone}}</a></p>
+					<!--<p><a href="#/tab/clientes" class="button button-block button-positive">Detalles</a></p>-->
+				</div>
+    		</ion-item>
+		</ion-list>
 	</ion-content>
 </ion-view>
