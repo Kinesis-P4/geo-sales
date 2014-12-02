@@ -21,7 +21,11 @@
 			<div class="button-bar">
 				<a class="button button-positive icon-left ion-bag" href="#/tab/cliente/{{cliente.id}}/agregar-credito">Compra</a>
 				<a class="button button-positive icon-left ion-email" ng-click="enviarCorreo()" >Notificar</a>
+				<a class="button button-positive icon-left ion-map" ng-click="navegarACliente()">Visitar</a>				
 				<a class="button button-assertive icon-right ion-heart-broken" ng-click="eliminarCliente()" >Eliminar</a>
+			</div>
+			<div class="button-bar">
+				
 			</div>
 			<br />
 			<ul>
@@ -34,7 +38,7 @@
 						<div class="col col-33 text-right"><span style="font-size:12px;">({{transaction.attributes.amount | currency:"CRC "}})</span></div>
 					</div>
 					<div class="row" style="padding:0;" ng-if="transaction.attributes.transaction_kind == 'debit'">
-						<div class="col col-67">Abono
+						<div class="col col-67">Abono 
 							<br>
 							<p style="font-size:12px">{{transaction.createdAt.getTime() | date:"dd/MM/yyyy 'at' h:mma"}}</p>
 						</div>
@@ -58,4 +62,7 @@
 
 <script id="popupCredito.html" type="text/ng-template">
 	<input type="number" ng-model="data.deposit">
+</script>	
+<script id="popupRuta.html" type="text/ng-template">
+	
 </script>	

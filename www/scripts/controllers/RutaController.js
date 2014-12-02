@@ -37,44 +37,30 @@ angular.module('Geosales')
             var query = new Parse.Query(Client);
             var clientsResults = [];
             var clientLocation = {};
+            var limitDate = new Date().getTime();
+            limitDate -= (Parse.User._currentUser.get('collectFrequency')*24*60*60*1000);
             query.equalTo('user', Parse.User._currentUser);
             query.find({
                 success: function(results) {
                     for (var i = 0; i < results.length; i++) {
+                    if(limitDate < results[i].get('lastCollectDate').getTime()){
                         clientLocation = {};
                         clientLocation.name = (results[i].get('name') + ' ' +results[i].get('lastName'));
                         clientLocation.phone = results[i].get('phone');
                         clientLocation.lat = results[i].get('location').latitude;
                         clientLocation.lon = results[i].get('location').longitude;
-                        
                         $scope.listaClientes.push(clientLocation);
+                    }
                     };
                     //console.log($scope.listaClientes);
                     $scope.whoiswhere = $scope.listaClientes;
+                    $scope.$apply();
                 }
             },{
                 error: function(error) {
                     console.log('Hubo un error con la conexion.');
                 }
             });
-
-            // some points of interest to show on the map
-            // to be user as markers, objects should have "lat", "lon", and "name" properties
-            /*$scope.whoiswhere = [
-                { "name": "Juan Carlos", "lat": 9.99135, "lon": -84.1541403 },
-                { "name": "Elver", "lat": 9.912141, "lon": -84.1741406 },
-                { "name": "Juan", "lat": 9.922131, "lon": -84.1341409 },
-                { "name": "Mariela", "lat": 9.932115, "lon": -84.18411 },
-                { "name": "Angelica Maria", "lat": 9.942125, "lon": -84.12412 },
-                { "name": "Mariana", "lat": 9.95213, "lon": -84.1941 },
-                { "name": "Juanito", "lat": 9.96212, "lon": -84.114135 },
-                { "name": "Jane", "lat": 9.982135, "lon": -84.164141 },
-                ];*/
-            
-            //$scope.listaClientes = [];
-            //$scope.updateClientes();
-
-            //$scope.updateClientes();    
         });
         $scope.getTransactions = function() {
             var Log = Parse.Object.extend('account_log');
@@ -95,13 +81,4 @@ angular.module('Geosales')
                 }
             });
       };
-
-
-
-
-
-
-
-
-
     }]);
