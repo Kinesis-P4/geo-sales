@@ -131,7 +131,6 @@ angular.module('Geosales').controller('ClienteController', ['$scope', 'ClientesS
       success: function(responseClient) {
         $scope.cliente = responseClient;
         $scope.getTransactions();
-        $scope.getCreditLines();
       },
       error: function(object, error) {
         console.log('Ocurrió un error obteniendo cliente actual, con el codigo de error: ' + error.message);
@@ -151,6 +150,7 @@ angular.module('Geosales').controller('ClienteController', ['$scope', 'ClientesS
 		query.find({
 			success: function(logs) {
 				$scope.transactions = logs;
+        $scope.getCreditLines();
         $scope.$apply();
 			},
 			error: function() {
@@ -171,7 +171,7 @@ angular.module('Geosales').controller('ClienteController', ['$scope', 'ClientesS
         console.log('Error getting the transaction logs');
       }
     }).then(function() {
-       setTimeout(setTransactionDetail, 500);
+       setTransactionDetail();
     });
   };
 
