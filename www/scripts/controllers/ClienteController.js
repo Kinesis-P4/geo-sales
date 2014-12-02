@@ -76,7 +76,8 @@ angular.module('Geosales').controller('ClienteController', ['$scope', 'ClientesS
       });      
     }
   };
-  $scope.navegarACliente = function(){
+  $scope.navegarACliente = function() 
+  {
     var pos;
     navigator.geolocation.getCurrentPosition(function(position) {
       pos = new google.maps.LatLng(position.coords.latitude,

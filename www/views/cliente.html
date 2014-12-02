@@ -38,7 +38,7 @@
 						<div class="col col-33 text-right"><span style="font-size:12px;">({{transaction.attributes.amount | currency:"CRC "}})</span></div>
 					</div>
 					<div class="row" style="padding:0;" ng-if="transaction.attributes.transaction_kind == 'debit'">
-						<div class="col col-67">Abono
+						<div class="col col-67">Abono 
 							<br>
 							<p style="font-size:12px">{{transaction.createdAt.getTime() | date:"dd/MM/yyyy 'at' h:mma"}}</p>
 						</div>

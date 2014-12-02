@@ -22,7 +22,7 @@ angular.module('Geosales')
             zoomControl: "@",   // Whether to show a zoom control on the map.
             scaleControl: "@"   // Whether to show scale control on the map.
         },
-        link: function (scope, element, attrs) {
+        link: function (scope, element, attrs){
             var toResize, toCenter;
             var map;
             var pos;
