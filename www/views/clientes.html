@@ -2,18 +2,18 @@
 	<ion-nav-buttons side="right">
 		<a href="#/tab/nuevo-cliente" class="button button-icon button-clear ion-plus-circled"></a>
 	</ion-nav-buttons>
-	<div class="list list-inset" style="margin-top:51px; padding: 0 9px">
+	<div class="list list-inset" style="margin-top:51px">
 		<label class="item item-input item-input-wrapper">
 			<i class="icon ion-search placeholder-icon"></i>
 			<input type="text" placeholder="Buscar" ng-model="query">
 		</label>
 	</div>
-	<ion-content style="margin-top:60px; padding: 0 20px">
+	<ion-content style="margin-top:60px">
 		<div class="list">
-			<a ng-repeat="cliente in clientes | orderBy: lastName | filter : query" cliente="cliente" class="item item-icon-left item-icon-right" href="#/tab/cliente/{{cliente.id}}">
+			<a ng-repeat="cliente in clientes | orderBy: cliente.name | filter : query" cliente="cliente" class="item item-icon-left item-icon-right" href="#/tab/cliente/{{cliente.id}}">
 				<i class="icon ion-person"></i>
 				<p><strong>{{cliente.name}} {{cliente.lastName}}</strong></p>
-				<i class="icon ion-arrow-right-c" style="color: #145fd7"></i>
+				<i class="icon ion-arrow-right-c"></i>
 			</a>
 		</div>
 	</ion-content>
