@@ -49,7 +49,7 @@ angular.module('Geosales').controller('ClienteController', ['$scope', 'ClientesS
       alert("No se puede borrar un cliente que tenga saldo pendiente.");
     } else {
       var myPopup = $ionicPopup.show({
-        templateUrl: 'popupRuta.html',
+        templateUrl: 'popupEliminar.html',
         title: 'Eliminar al cliente ' + $scope.cliente.attributes.name + ' ' + $scope.cliente.attributes.lastName + '?',
         buttons: 
         [{   
