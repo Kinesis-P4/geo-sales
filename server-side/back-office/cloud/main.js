@@ -33,6 +33,10 @@ Parse.Cloud.afterSave('debits', function(request) {
 	newAccountLog.set('client', addedDebits.get('client'));
 	newAccountLog.set('transaction_kind', 'debit');
 	newAccountLog.set('amount', addedDebits.get('amount'));
+	
+	newAccountLog.set('isRefund', addedDebits.get('isRefund'));
+	newAccountLog.set('detail', addedDebits.get('detail'));
+
 	newAccountLog.save();
 
 	var currentClient = addedDebits.get('client');
