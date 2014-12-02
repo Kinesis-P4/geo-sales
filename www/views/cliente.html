@@ -4,7 +4,11 @@
 	</ion-nav-buttons>
 	<ion-content>
 		<div class="item item-text-wrap">
-			<p><span>Saldo:</span> {{getSaldo() | currency:"CRC "}}</p>
+			<p>
+				<span>Saldo:</span>
+				<strong ng-if="getSaldo() >= 0" style="color:red">{{getSaldo() | currency:"CRC "}}</strong>
+				<strong ng-if="getSaldo() < 0" style="color:green">{{getSaldo() | currency:"CRC "}}</strong>
+			</p>
 			<p><span>Teléfono:</span> <a href="tel:({{cliente.attributes.phone}})">{{cliente.attributes.phone}}</a></p>
 			<p><span>Último abono:</span> {{cliente.attributes.lastCollectDate.getTime() | date:"dd/MM/yyyy 'at' h:mma"}} </p>
 
@@ -17,24 +21,37 @@
 			<div class="button-bar">
 				<a class="button button-positive icon-left ion-bag" href="#/tab/cliente/{{cliente.id}}/agregar-credito">Compra</a>
 				<a class="button button-positive icon-left ion-email" ng-click="enviarCorreo()" >Notificar</a>
-				<a class="button button-assertive icon-right ion-heart-broken" ng-click="eliminarCliente()" >Eliminar</a>
+				<a class="button button-positive icon-left ion-map" ng-click="navegarACliente()">Visitar</a>				
+				<!-- <a class="button button-assertive icon-right ion-heart-broken" ng-click="eliminarCliente()" >Eliminar</a> -->
+			</div>
+			<div class="button-bar">
+				
 			</div>
 			<br />
 			<ul>
 				<li ng-repeat="transaction in transactions">
 					<div class="row" style="padding:0;" ng-if="transaction.attributes.transaction_kind == 'credit'">
-						<div class="col col-67">Compra - <span style="font-size:12px">{{transaction.createdAt.getTime() | date:"dd/MM/yyyy 'at' h:mma"}}</span></div>
-						<div class="col col-33 text-right"><span style="font-size:12px;color:red;">({{transaction.attributes.amount | currency:"CRC "}})</span></div>
+						<div class="col col-67">Compra - <span style="font-size:12px">{{transaction.attributes.detail}}</span>
+							<br>
+							<p style="font-size:12px">{{transaction.createdAt.getTime() | date:"dd/MM/yyyy 'at' h:mma"}}</p>
+						</div>
+						<div class="col col-33 text-right"><span style="font-size:12px;">({{transaction.attributes.amount | currency:"CRC "}})</span></div>
 					</div>
 					<div class="row" style="padding:0;" ng-if="transaction.attributes.transaction_kind == 'debit'">
-						<div class="col col-67">Abono - <span style="font-size:12px">{{transaction.createdAt.getTime() | date:"dd/MM/yyyy 'at' h:mma"}}</span></div>
+						<div class="col col-67">Abono
+							<br>
+							<p style="font-size:12px">{{transaction.createdAt.getTime() | date:"dd/MM/yyyy 'at' h:mma"}}</p>
+						</div>
 						<div class="col col-33 text-right"><span style="font-size:12px">{{transaction.attributes.amount | currency:"CRC "}}</span></div>
 					</div>
 				</li>
 				<li>
 					<div class="row" style="padding:0;">
 						<div class="col col-67 text-right">Saldo</div>
-						<div class="col col-33 text-right" style="font-size:12px; border-top: 1px solid black;"><strong>{{getSaldo() | currency:"CRC "}}</strong></div>
+						<div class="col col-33 text-right" style="font-size:12px; border-top: 1px solid black; color: red;">
+							<strong ng-if="getSaldo() >= 0" style="color:red">{{getSaldo() | currency:"CRC "}}</strong>
+							<strong ng-if="getSaldo() < 0" style="color:green">{{getSaldo() | currency:"CRC "}}</strong>
+						</div>
 					</div>
 				</li>
 			</ul>
@@ -45,4 +62,7 @@
 
 <script id="popupCredito.html" type="text/ng-template">
 	<input type="number" ng-model="data.deposit">
+</script>	
+<script id="popupRuta.html" type="text/ng-template">
+	
 </script>	
