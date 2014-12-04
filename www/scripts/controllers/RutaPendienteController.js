@@ -158,8 +158,8 @@ angular.module('Geosales')
   };
 
   var getInfoWindowForClient = function (cliente) {
-    // var link = 'window.open(\'http://maps.google.com/?saddr=' + $scope.currentPosition.latitude + ',' + $scope.currentPosition.longitude + '&daddr=' + cliente.get('location').latitude + ',' + cliente.get('location').longitude+'\', \'_system\', \'location=yes\'); return false;';
-    var link = "window.open('http://maps.google.com/?saddr=9.9020078,-83.9942822&daddr=9.9322946,-84.0545796', '_system', 'location=yes'); return false;"
+    var link = 'window.open(\'http://maps.google.com/?saddr=' + $scope.currentPosition.latitude + ',' + $scope.currentPosition.longitude + '&daddr=' + cliente.get('location').latitude + ',' + cliente.get('location').longitude+'\', \'_system\', \'location=yes\'); return false;';
+    //var link = "window.open('http://maps.google.com/?saddr=9.9020078,-83.9942822&daddr=9.9322946,-84.0545796', '_system', 'location=yes'); return false;"
     var contentString = '<div style="width:100px">' +
       '<p style="margin:0;"><strong>'+ cliente.get('name') + ' ' + cliente.get('lastName')+'</strong></p>'+
       '<a href="" onclick="'+link+'" class="icon ion-model-s" style="color: #145fd7; font-size: 30px; margin-right: 10px;"></a>'+
@@ -167,7 +167,6 @@ angular.module('Geosales')
       //Se debe de agregar la funcionalidad de agregar abono
       //'<a ng-click="openGoogleMaps()" class="icon ion-model-s" style="color: #145fd7; font-size: 30px;"></a>'+
     '</div>';
-    console.log(contentString);
     var compiled = $compile(contentString)($scope);
     return compiled[0];
   };
