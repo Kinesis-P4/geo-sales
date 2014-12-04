@@ -6,6 +6,7 @@ angular.module('Geosales')
 
   $scope.currentPosition = null;
   $scope.clientes = [];
+  $scope.log = '';
 
   var map;
   var directionsDisplay;
@@ -19,6 +20,7 @@ angular.module('Geosales')
   });
 
   var initialize = function() {
+
     // Instantiate a directions service.
     directionsService = new google.maps.DirectionsService();
     var currentPos = new google.maps.LatLng($scope.currentPosition.latitude, $scope.currentPosition.longitude);
@@ -119,6 +121,8 @@ angular.module('Geosales')
               $scope.clientes = [];
               for (var i = 0; i < results.length; i++) {
                   results[i].attributes.id = results[i].id;
+                  results[i].attributes.marker = getMarkerForClient(results[i]);
+                  results[i].attributes.windowContent = getInfoWindowForClient(results[i]);
                   $scope.clientes.push(results[i].attributes);
                   addClientToMap(results[i]);
               };
@@ -132,37 +136,39 @@ angular.module('Geosales')
   };
 
   var addClientToMap = function(cliente) {
+    google.maps.event.addListener(cliente.get('marker'), 'click', function() {
+      infowindow.setContent(cliente.get('windowContent'));
+      infowindow.open(map,cliente.get('marker'));
+    });
+  };
 
+  $scope.displayCliente = function(cliente) {
+    infowindow.setContent(cliente.windowContent);
+    infowindow.open(map,cliente.marker);
+  };
 
-    var currentPos = new google.maps.LatLng(cliente.get('location').latitude, cliente.get('location').longitude);
+  var getMarkerForClient = function(cliente) {
+    var clientPosition = new google.maps.LatLng(cliente.get('location').latitude, cliente.get('location').longitude);
+    var marker = new google.maps.Marker({
+      position: clientPosition,
+      map: map,
+      title: (cliente.get('name') + ' ' + cliente.get('lastName'))
+    });
+    return marker;
+  };
 
-    var link = 'http://maps.google.com/?saddr=' + $scope.currentPosition.latitude + ',' + $scope.currentPosition.longitude + '&daddr=' + cliente.get('location').latitude + ',' + cliente.get('location').longitude;
-
+  var getInfoWindowForClient = function (cliente) {
+    var link = 'window.open(\'http://maps.google.com/?saddr=' + $scope.currentPosition.latitude + ',' + $scope.currentPosition.longitude + '&daddr=' + cliente.get('location').latitude + ',' + cliente.get('location').longitude+'\', \'_system\', \'location=yes\'); return false;';
+    //var link = "window.open('http://maps.google.com/?saddr=9.9020078,-83.9942822&daddr=9.9322946,-84.0545796', '_system', 'location=yes'); return false;"
     var contentString = '<div style="width:100px">' +
       '<p style="margin:0;"><strong>'+ cliente.get('name') + ' ' + cliente.get('lastName')+'</strong></p>'+
-      '<a href="" ng-click="openGoogleMaps(\''+link+'\')" class="icon ion-model-s" style="color: #145fd7; font-size: 30px; margin-right: 10px;"></a>'+
+      '<a href="" onclick="'+link+'" class="icon ion-model-s" style="color: #145fd7; font-size: 30px; margin-right: 10px;"></a>'+
       '<a href="tel:'+ cliente.get('phone') +'" class="icon ion-ios7-telephone" style="color: #145fd7; font-size: 30px;"></a>'+
       //Se debe de agregar la funcionalidad de agregar abono
       //'<a ng-click="openGoogleMaps()" class="icon ion-model-s" style="color: #145fd7; font-size: 30px;"></a>'+
     '</div>';
-
     var compiled = $compile(contentString)($scope);
-
-    var marker = new google.maps.Marker({
-      position: currentPos,
-      map: map,
-      title: (cliente.get('name') + ' ' + cliente.get('lastName'))
-    });
-
-    google.maps.event.addListener(marker, 'click', function() {
-      infowindow.setContent(compiled[0]);
-      infowindow.open(map,marker);
-      //close other info windows
-    });
-  };
-
-  $scope.openGoogleMaps = function(link) {
-    window.open(link, '_blank', 'location=yes');
+    return compiled[0];
   };
 
 }]);

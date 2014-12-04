@@ -10,9 +10,16 @@ angular.module('Geosales').controller('ClienteController', ['$scope', 'ClientesS
   $scope.transactions = [];
   $scope.creditLines = [];
   $scope.balance = 0;
+  $scope.currentPosition = {};
+  $scope.showVisitar = false;
 
   $scope.cliente = {};
   $scope.clienteLoaded = {};
+
+  $scope.$on('$viewContentLoaded', function(){
+    getCurrentPosition();
+    $scope.getClient();
+  });
 
   $scope.enviarCorreo = function(){
     
@@ -76,49 +83,24 @@ angular.module('Geosales').controller('ClienteController', ['$scope', 'ClientesS
       });      
     }
   };
-  $scope.navegarACliente = function() 
-  {
-    var pos;
-    navigator.geolocation.getCurrentPosition(function(position) {
-      pos = new google.maps.LatLng(position.coords.latitude,
-                                       position.coords.longitude);     
-    });
 
-    var hrefGM ="http://maps.google.com/?saddr=" +pos.k + "," + pos.B + "&daddr=" + $scope.cliente.attributes.location.latitude + "," + $scope.cliente.attributes.location.longitude;
-    var tagLinkGoogleMaps = '<p><a href="#" onClick="window.open(\'' + hrefGM + '\', \'_blank\', \'location=yes\');return false;">Google Maps</a></p>';
-    var hrefW="http://waze://?ll=" +$scope.cliente.attributes.location.latitude + "," + $scope.cliente.attributes.location.longitude + "&navigate=yes";
-    var tagLinkWaze = '<p><a href="' + hrefW + '">' + 'Waze' + '</a></p>';
-    var myPopup = $ionicPopup.show({
-      templateUrl: 'popupRuta.html',
-      title: 'Visitar a ' + $scope.cliente.attributes.name + ' ' + $scope.cliente.attributes.lastName + ' usando:',
-      subTitle: tagLinkGoogleMaps + tagLinkWaze,
-
-      buttons: [
-      { 
-        text: 'Google Maps',
-        type: 'button-positive',
-        onTap: function(e) {
-          $window.open(hrefGM);
-          //return scope;
-        }
+  var getCurrentPosition = function() {
+    navigator.geolocation.getCurrentPosition(
+      function(position) {
+        $scope.currentPosition = {latitude: position.coords.latitude, longitude: position.coords.longitude};
+        //$scope.cliente.navigateTo = "window.open('http://maps.google.com/?saddr=" + $scope.currentPosition.latitude + "," + $scope.currentPosition.longitude + "&daddr=" + $scope.cliente.get('location').latitude + "," + $scope.cliente.get('location').longitude + "', '_system', 'location=yes'); return false;";
+        $scope.showVisitar = true;
       },
-      {   
-        text: 'Waze',
-        type: 'button-positive',
-        onTap: function(e) {
-          $window.open(hrefW);
-          //return scope;
-        }
-      },
-      { text: 'Cancelar' , type: 'button-positive' }
-      ]
-    });
+      function(error) {
+        $scope.showVisitar = false;
+      }
+    );
+  };
 
-  }
-
-  $scope.$on('$viewContentLoaded', function(){
-    $scope.getClient();
-  });
+  $scope.navigateTo = function() {
+    window.open('http://maps.google.com/?saddr='+ $scope.currentPosition.latitude + ',' + $scope.currentPosition.longitude + '&daddr=' + $scope.cliente.get('location').latitude + ',' + $scope.cliente.get('location').longitude, '_system', 'location=yes');
+    return false;
+  };
 
   $scope.getFecha = function(date){
     var fecha = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes();

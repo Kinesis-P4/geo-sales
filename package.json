@@ -56,6 +56,7 @@
     "org.apache.cordova.splashscreen",
     "org.apache.cordova.geolocation",
     "org.apache.cordova.dialogs",
-    "org.apache.cordova.vibration"
+    "org.apache.cordova.vibration",
+    "https://git-wip-us.apache.org/repos/asf/cordova-plugin-inappbrowser.git"
   ]
 }
