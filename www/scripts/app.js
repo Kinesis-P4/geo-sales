@@ -66,15 +66,15 @@ angular.module('Geosales', ['ionic', 'config'])
         }
       }
     })
-    .state('tabs.pendientes', {
-      url: '/pendientes',
-      views: {
-        'pendientes-tab': {
-          templateUrl: 'views/pendientes.html',
-          controller: 'PendientesController'
-        }
-      }
-    })
+    // .state('tabs.pendientes', {
+    //   url: '/pendientes',
+    //   views: {
+    //     'pendientes-tab': {
+    //       templateUrl: 'views/pendientes.html',
+    //       controller: 'PendientesController'
+    //     }
+    //   }
+    // })
     // .state('tabs.rutas', {
     //   url: '/rutas',
     //   views: {
@@ -97,7 +97,8 @@ angular.module('Geosales', ['ionic', 'config'])
       url: '/estadisticas',
       views: {
         'estadisticas-tab': {
-          templateUrl: 'views/estadisticas.html'
+          templateUrl: 'views/estadisticas.html',
+          controller: 'EstadisticasController'
         }
       }
     })
