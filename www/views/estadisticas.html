@@ -1,5 +1,45 @@
 <ion-view title="Estad&iacute;sticas">
 	<ion-content>
-	  <p>Prueba de Redireccion a Estadisticas con archivo independiente</p>
+		<p>Seleccione los datos que desea obtener en el reporte:</p>
+  		<ul class="list">
+		  	<li class="item item-toggle">
+				Datos de uso general
+				<label class="toggle toggle-balanced">
+				<input type="checkbox" ng-model="reporte.usoGeneral">
+				<div class="track">
+				<div class="handle"></div>
+				</div>
+				</label>
+			</li>
+			<li class="item item-toggle">
+				Reporte de clientes
+				<label class="toggle toggle-balanced">
+				<input type="checkbox" ng-model="reporte.clientesTodos">
+				<div class="track">
+				<div class="handle"></div>
+				</div>
+				</label>
+			</li>
+			<li class="item item-toggle">
+				Clientes Morosos
+				<label class="toggle toggle-balanced">
+				<input type="checkbox" ng-model="reporte.morosos">
+				<div class="track">
+				<div class="handle"></div>
+				</div>
+				</label>
+			</li>
+			<li class="item item-toggle">
+				Clientes al día
+				<label class="toggle toggle-balanced">
+				<input type="checkbox" ng-model="reporte.aldia">
+				<div class="track">
+				<div class="handle"></div>
+				</div>
+				</label>
+			</li>
+		</ul>
+    	<button class="button button-positive button-block" ng-click="generarReporte()">Generar Reporte</button>
+
 	</ion-content>
 </ion-view>
