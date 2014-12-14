@@ -3,71 +3,35 @@
 angular.module('Geosales')
   .controller('EstadisticasController', ['$scope', function ContentCtrl($scope) {
     $scope.reporte = {usoSistema:false, clientesMorosos:false, clientesAlDia:false, todosClientes:false};
-    $scope.generarReporte = function(){
-        var emailBody = null;
-        var emailSubject = "Reporte de clientes";
-  
-        $scope.obtenerTodosClientes();
-         if($scope.reporte.usoGeneral){
-            emailBody = "<p>Reporte de sistema:</p>";            
-            emailBody += "<p>Cantidad de clientes: " + $scope.clientes.length + "</p>";
-        //     emailBody += obtenerCantidadTotalVentas();
-        //     emailBody += obtenerCantidadClientesSaldoPendiente()
-
-        }
-        if($scope.reporte.clientesTodos){
-            emailBody += "<br>";
-            emailBody += "<p>Clientes creados:</p>";
-            if ($scope.clientes.length > 0){
-                emailBody += "<table>";
-                for(var i = 0; i < $scope.clientes.length; i++){
-                    emailBody += "<tr><td>" + (i + 1) + "</td><td>" + $scope.clientes[i].name + " " + $scope.clientes[i].lastName + "</td></tr>";
-                }                
-                emailBody += "</table>";
-            }else{
-                emailBody += "<p>No hay clientes en el sistema.</p>";
-            }
-        }
-        if($scope.reporte.morosos){
-            emailBody += "<br>";
-            emailBody += "<p>Clientes morosos:</p>";
-            $scope.obtenerClientesMorosos();
-            if ($scope.clientesPendientes.length > 0){
-                emailBody += "<table>";
-                for(var i = 0; i < $scope.clientesPendientes.length; i++){
-                    emailBody += "<tr><td>" + (i + 1) + "</td><td>" + $scope.clientesPendientes[i].name + " " + $scope.clientesPendientes[i].lastName + "</td></tr>";
-                }                
-                emailBody += "</table>";
-            }else{
-                emailBody += "<p>No hay clientes morosos en el sistema.</p>";
-            }
-            
-        }
-        if($scope.reporte.aldia){
-            emailBody += "<br>";
-            emailBody += "<p>Clientes al día:</p>";
-            
-            $scope.obtenerClientesAlDia();
-            if ($scope.clientesAlDia.length > 0){
-                emailBody += "<table>";
-                for(var i = 0; i < $scope.clientesAlDia.length; i++){
-                    emailBody += "<tr><td>" + (i + 1) + "</td><td>" + $scope.clientesAlDia[i].name + " " + $scope.clientesAlDia[i].lastName + "</td></tr>";
-                }                
-                emailBody += "</table>";
-            }else{
-                emailBody += "<p>No hay clientes al día en el sistema.</p>";
-            }
-            
-        }
-
-        enviarCorreo(emailBody, emailSubject, "ljblanco@gmail.com");
-    }
 
     $scope.clientes = [];
     $scope.clientesPendientes = [];
     $scope.clientesAlDia = [];
+    $scope.emailBody = "";
+    var emailSubject = "Reporte Geo-Sales";
+    
+    $scope.generarReporte = function(){
+        $scope.emailBody = "Reporte de sistema Geo-Sales generado a la fecha " + $scope.getFecha(new Date()) + ".";
+        var emailSubject = "Reporte Geo-Sales";
+  
+        // if($scope.reporte.usoGeneral){
+        //     $scope.obtenerDatosSistema();
+        // }else 
+        if($scope.reporte.todosClientes){        
+            $scope.obtenerTodosClientes();
+        }else if($scope.reporte.clientesMorosos){            
+            $scope.obtenerClientesMorosos();
+        }else if($scope.reporte.clientesAlDia){
+            $scope.obtenerClientesAlDia();            
+        }
 
-    $scope.obtenerTodosClientes = function(){
+        //enviarCorreo(emailBody, emailSubject, "ljblanco@gmail.com");
+    }
+    $scope.getFecha = function(date){
+        var fecha = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes();
+        return fecha;
+    }
+    $scope.obtenerDatosSistema = function(){
         var Client = Parse.Object.extend('clients');
         var query = new Parse.Query(Client);
         var clientsResults = [];
@@ -81,13 +45,141 @@ angular.module('Geosales')
                     results[i].attributes.id = results[i].id;
                     $scope.clientes.push(results[i].attributes);
                 };
-                //$scope.$apply();
+
+                var creditCounter = 0;
+                var Client = Parse.Object.extend('clients');
+                var queryCli = new Parse.Query(Client);
+                queryCli.include('credits');
+                queryCli.equalTo('user', Parse.User._currentUser);
+                queryCli.find({
+                    success: function(resulClients) {
+                        for (var i = 0; i < resulClients.length; i++) {
+                            var Credit = Parse.Object.extend('credits');
+                            var queryCre = new Parse.Query(Credit);
+                            queryCre.equalTo('client', resulClients[i].get('objectId'));
+                            queryCre.find({
+                                success: function(resulCredits){
+                                    var d = new Date();
+                                    d.setDate(d.getDate()-15);
+                                    //var limitDate = Date.today().add({days:-30});
+                                    for (var k = 0; k < resulCredits.length; k++) {
+                                        if(d < resulCredits[k].get('createdAt')){
+                                            creditCounter ++;
+                                        };
+                                    }
+                                    $scope.emailBody += "\n\n"
+                                    $scope.emailBody = "- Reporte de sistema:\n";            
+                                    $scope.emailBody += "   - Cantidad de clientes: " + $scope.clientes.length + "\n";
+                                    $scope.emailBody += "   - Cantidad de compras en los últimos 30 días: " + creditCounter + "\n";
+                                    
+                                    // Llamar a las funciones para generar los demas reportes
+                                    if ($scope.reporte.clientesTodos)
+                                    {
+                                        $scope.obtenerTodosClientes();
+                                    }
+                                    else if($scope.reporte.clientesMorosos)
+                                    {
+                                        $scope.obtenerClientesMorosos();
+                                    }
+                                    else if($scope.reporte.aldia)
+                                    {
+                                        $scope.obtenerClientesAlDia();
+                                    }
+                                    else
+                                    {
+                                        enviarCorreo($scope.emailBody, emailSubject, "ljblanco@gmail.com");
+                                    }                            
+                                }
+                            },{
+                                error: function(error) {
+                                console.log('Hubo un error con la conexion.');
+                                }
+                            })
+                        };
+                    }
+                },{
+                    error: function(error) {
+                        console.log('Hubo un error con la conexion.');
+                    }
+                });
             }
         },{
             error: function(error) {
                 console.log('Hubo un error con la conexion.');
             }
         });
+    }
+    $scope.obtenerTodosClientes = function(){
+        if ($scope.clientes.length > 0) 
+        {
+            $scope.emailBody += "\n\n"
+            $scope.emailBody += "- Clientes creados:\n";
+            if ($scope.clientes.length > 0){
+                for(var i = 0; i < $scope.clientes.length; i++){
+                    $scope.emailBody += "   " + (i + 1) + " - " + $scope.clientes[i].name + " " + $scope.clientes[i].lastName + "\n";
+                }                
+            }else{
+                $scope.emailBody += "   - No hay clientes en el sistema. \n";
+            }
+            // Llamar a las funciones para generar los demas reportes
+            if($scope.reporte.clientesAlDia)
+            {
+                $scope.obtenerClientesAlDia();
+            }
+            else if($scope.reporte.clientesMorosos)
+            {
+                $scope.obtenerClientesMorosos();
+            }
+            else
+            {
+                enviarCorreo($scope.emailBody, emailSubject, "ljblanco@gmail.com");
+            }
+        }
+        else
+        {
+            var Client = Parse.Object.extend('clients');
+            var query = new Parse.Query(Client);
+            var clientsResults = [];
+
+            query.equalTo('user', Parse.User._currentUser);
+            query.ascending('name');
+            query.find({
+                success: function(results) {
+                    $scope.clientes = [];
+                    for (var i = 0; i < results.length; i++) {
+                        results[i].attributes.id = results[i].id;
+                        $scope.clientes.push(results[i].attributes);
+                    };
+                    $scope.emailBody += "\n\n"
+                    $scope.emailBody += "- Clientes creados:\n";
+                    if ($scope.clientes.length > 0){
+                        for(var i = 0; i < $scope.clientes.length; i++){
+                            $scope.emailBody += "   " + (i + 1) + " - " + $scope.clientes[i].name + " " + $scope.clientes[i].lastName + "\n";
+                        }                
+                    }else{
+                        $scope.emailBody += "   - No hay clientes en el sistema. \n";
+                    }
+                    // Llamar a las funciones para generar los demas reportes
+                    if($scope.reporte.clientesAlDia)
+                    {
+                        $scope.obtenerClientesAlDia();
+                    }
+                    else if($scope.reporte.clientesMorosos)
+                    {
+                        $scope.obtenerClientesMorosos();
+                    }
+                    else
+                    {
+                        enviarCorreo($scope.emailBody, emailSubject, "ljblanco@gmail.com");
+                    }
+                    //$scope.$apply();
+                }
+            },{
+                error: function(error) {
+                    console.log('Hubo un error con la conexion.');
+                }
+            });
+        }
     }
     function obtenerCantidadVentasUltimos30Dias()
     {
@@ -121,6 +213,18 @@ angular.module('Geosales')
                         $scope.clientesPendientes.push(results[i].attributes);
                     }
                 };
+                $scope.emailBody += "\n\n";
+                $scope.emailBody += "- Clientes morosos:\n";
+                
+                if ($scope.clientesPendientes.length > 0){
+                    for(var i = 0; i < $scope.clientesPendientes.length; i++){
+                        $scope.emailBody += "   " + (i + 1) + " - " + $scope.clientesPendientes[i].name + " " + $scope.clientesPendientes[i].lastName + "\n";
+                    }                
+                }else{
+                    $scope.emailBody += "   - No hay clientes morosos en el sistema.\n";
+                }
+                // Llamar a las funciones para generar los demas reportes
+                enviarCorreo($scope.emailBody, emailSubject, "ljblanco@gmail.com");
             }
         },{
             error: function(error) {
@@ -149,6 +253,27 @@ angular.module('Geosales')
                     }
 
                 };
+                $scope.emailBody += "\n\n";
+                $scope.emailBody += "- Clientes al día:\n";
+                
+                
+                if ($scope.clientesAlDia.length > 0){
+                    for(var i = 0; i < $scope.clientesAlDia.length; i++){
+                        $scope.emailBody += "   " + (i + 1) + " - " + $scope.clientesAlDia[i].name + " " + $scope.clientesAlDia[i].lastName + "\n";
+                    }
+                }else{
+                    $scope.emailBody += "   - No hay clientes al día en el sistema.\n";
+                }
+                
+                if($scope.reporte.clientesMorosos)
+                {
+                    $scope.obtenerClientesMorosos();
+                }
+                else
+                {
+                    enviarCorreo($scope.emailBody, emailSubject, "ljblanco@gmail.com");
+                }                
+
             }
         },{
             error: function(error) {
@@ -201,8 +326,10 @@ angular.module('Geosales')
     {
         return 0;
     }
-    function enviarCorreo(subject, body, toUser){
+    function enviarCorreo(body, subject, toUser){
     
+    body += "\n\n";
+    body += "Geo-Sales app.";
     
     if(window.plugins && window.plugins.emailComposer) {
             window.plugins.emailComposer.showEmailComposerWithCallback(function(result) {
@@ -213,7 +340,7 @@ angular.module('Geosales')
             [toUser],    // To
             null,                    // CC
             null,                    // BCC
-            true,                   // isHTML
+            false,                   // isHTML
             null,                    // Attachments
             null);                   // Attachment Data
         }
