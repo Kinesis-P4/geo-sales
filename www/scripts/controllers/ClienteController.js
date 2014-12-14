@@ -210,7 +210,10 @@ angular.module('Geosales').controller('ClienteController', ['$scope', 'ClientesS
 	};
 
 	var addDebit = function (client) {
-		if($scope.data.deposit > 0) {
+    //Mostrar el Loading
+    $scope.showLoading();
+		
+    if($scope.data.deposit > 0) {
 			var newDebit = new Debit();
 			newDebit.set('client', client);
 			newDebit.set('amount', $scope.data.deposit);
@@ -222,11 +225,13 @@ angular.module('Geosales').controller('ClienteController', ['$scope', 'ClientesS
 			newDebit.save(null, {
 				success: function(newDebit) {
           $scope.getTransactions();
+          $scope.data.deposit = 0;
 					window.alert('El débito fué acreditado correctamente.');
-					$scope.data.deposit = 0;
+          $ionicLoading.hide();
 				},
 				error: function(newDebit, error) {
 					console.log('Ocurrió un error salvando el abono, con el codigo de error: ' + error.message);
+          $ionicLoading.hide();
 				}
 			});
 		}else{
