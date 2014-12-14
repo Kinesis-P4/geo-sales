@@ -1,20 +1,17 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <widget id="com.example.Geosales" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:gap="http://phonegap.com/ns/1.0" height="" width="">
-    <name>Geosales</name>
-    <description>
-        A sample Apache Cordova application that responds to the deviceready event.
-    </description>
-
-    <content src="index.html" />
-    <access origin="*" />
-    
-    <author email="juancarlos@vegabarca.com" href="http://vegabarca.com">
-        Kinesis
-    </author>
-    
-    <preference name="webviewbounce" value="false" />
-    <preference name="UIWebViewBounce" value="false" />
-    <preference name="DisallowOverscroll" value="false" />
-    <preference name="splashscreen" value="splash" />
-    <preference name="splashScreenDelay" value="2000" />
+  <name>Geosales</name>
+  <description>
+    Una aplicación dedicada al manejo de cuentas por cobrar optimizada por la integración de un sistema de localización de clientes.
+  </description>
+  <content src="index.html"/>
+  <access origin="*"/>
+  <author email="juancarlos@vegabarca.com" href="http://vegabarca.com">
+    Kinesis
+  </author>
+  <preference name="webviewbounce" value="false"/>
+  <preference name="UIWebViewBounce" value="false"/>
+  <preference name="DisallowOverscroll" value="false"/>
+  <preference name="splashscreen" value="splash"/>
+  <preference name="splashScreenDelay" value="2000"/>
 </widget>

@@ -32,33 +32,32 @@
 			<ul>
 				<li ng-repeat="transaction in transactions">
 					<div class="row" style="padding:0;" ng-if="transaction.attributes.transaction_kind == 'credit'">
-						<div class="col col-67">Compra - <span style="font-size:12px">{{transaction.attributes.detail}}</span>
+						<div class="col col-67">Compra - <span style="font-size:11px">{{transaction.attributes.detail}}</span>
 							<br>
 							<p style="font-size:12px">{{transaction.createdAt.getTime() | date:"dd/MM/yyyy 'at' h:mma"}}</p>
 						</div>
-						<div class="col col-33 text-right"><strong><span style="font-size:12px;">{{transaction.attributes.amount | currency:"CRC "}}</span></strong></div>
+						<div class="col col-33 text-right"><strong><span style="font-size:11px;">{{transaction.attributes.amount | currency:"CRC "}}</span></strong></div>
 					</div>
 					<div class="row" style="padding:0;" ng-if="transaction.attributes.transaction_kind == 'debit'">
 						<div class="col col-67">
 							<span ng-if="transaction.attributes.isRefund == false">Abono</span>
-							<span ng-if="transaction.attributes.isRefund == true">Devolución/Rebajo - <span style="font-size:12px;">{{transaction.attributes.detail}}</span></span>
+							<span ng-if="transaction.attributes.isRefund != false">Devolución/Rebajo - <span style="font-size:11px;">{{transaction.attributes.detail}}</span></span>
 							<br>
 							<p style="font-size:12px">{{transaction.createdAt.getTime() | date:"dd/MM/yyyy 'at' h:mma"}}</p>
 						</div>
-						<div class="col col-33 text-right"><span style="font-size:12px">- {{transaction.attributes.amount | currency:"CRC "}}</span></div>
+						<div class="col col-33 text-right"><span style="font-size:11px">- {{transaction.attributes.amount | currency:"CRC "}}</span></div>
 					</div>
 				</li>
 				<li>
 					<div class="row" style="padding:0;">
-						<div class="col col-67 text-right">Saldo</div>
-						<div class="col col-33 text-right" style="font-size:12px; border-top: 1px solid black; color: red;">
+						<div class="col col-50 text-right">Saldo</div>
+						<div class="col col-50 text-right" style="font-size:11px; border-top: 1px solid black; color: red;">
 							<strong ng-if="getSaldo() > 0" style="color:red">{{getSaldo() | currency:"CRC "}}</strong>
 							<strong ng-if="getSaldo() <= 0" style="color:green">{{getSaldo() | currency:"CRC "}}</strong>
 						</div>
 					</div>
 				</li>
 			</ul>
-
 		</div>
 	</ion-content>
 </ion-view>

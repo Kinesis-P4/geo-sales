@@ -1,7 +1,15 @@
 'use strict';
 
-angular.module('Geosales').controller('ClienteController', ['$scope', 'ClientesServices', '$ionicPopup', '$state','$stateParams', 'PARSE_CREDENTIALS', 
-	function ($scope, ClientesServices, $ionicPopup, $state, $stateParams, PARSE_CREDENTIALS) {
+angular.module('Geosales').controller('ClienteController', ['$scope', 'ClientesServices', '$ionicPopup', '$state', '$stateParams', '$ionicLoading', 'PARSE_CREDENTIALS', 
+	function ($scope, ClientesServices, $ionicPopup, $state, $stateParams, $ionicLoading, PARSE_CREDENTIALS) {
+
+  $scope.showLoading = function() {
+    $ionicLoading.show({template: 'Cargando...'});
+  };
+
+  $scope.hideLoading = function() {
+    $ionicLoading.hide();
+  };
 
   var Client = Parse.Object.extend('clients');
   var Debit = Parse.Object.extend('debits');
@@ -17,6 +25,7 @@ angular.module('Geosales').controller('ClienteController', ['$scope', 'ClientesS
   $scope.clienteLoaded = {};
 
   $scope.$on('$viewContentLoaded', function(){
+    $scope.showLoading();
     getCurrentPosition();
     $scope.getClient();
   });
@@ -88,7 +97,6 @@ angular.module('Geosales').controller('ClienteController', ['$scope', 'ClientesS
     navigator.geolocation.getCurrentPosition(
       function(position) {
         $scope.currentPosition = {latitude: position.coords.latitude, longitude: position.coords.longitude};
-        //$scope.cliente.navigateTo = "window.open('http://maps.google.com/?saddr=" + $scope.currentPosition.latitude + "," + $scope.currentPosition.longitude + "&daddr=" + $scope.cliente.get('location').latitude + "," + $scope.cliente.get('location').longitude + "', '_system', 'location=yes'); return false;";
         $scope.showVisitar = true;
       },
       function(error) {
@@ -183,6 +191,7 @@ angular.module('Geosales').controller('ClienteController', ['$scope', 'ClientesS
       }
     };
     $scope.$apply();
+    $scope.hideLoading();
   };
 
   var getCreditDetail = function(credit) {
@@ -201,7 +210,10 @@ angular.module('Geosales').controller('ClienteController', ['$scope', 'ClientesS
 	};
 
 	var addDebit = function (client) {
-		if($scope.data.deposit > 0) {
+    //Mostrar el Loading
+    $scope.showLoading();
+		
+    if($scope.data.deposit > 0) {
 			var newDebit = new Debit();
 			newDebit.set('client', client);
 			newDebit.set('amount', $scope.data.deposit);
@@ -213,11 +225,13 @@ angular.module('Geosales').controller('ClienteController', ['$scope', 'ClientesS
 			newDebit.save(null, {
 				success: function(newDebit) {
           $scope.getTransactions();
+          $scope.data.deposit = 0;
 					window.alert('El débito fué acreditado correctamente.');
-					$scope.data.deposit = 0;
+          $ionicLoading.hide();
 				},
 				error: function(newDebit, error) {
 					console.log('Ocurrió un error salvando el abono, con el codigo de error: ' + error.message);
+          $ionicLoading.hide();
 				}
 			});
 		}else{

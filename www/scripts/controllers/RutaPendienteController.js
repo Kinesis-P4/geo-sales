@@ -1,8 +1,20 @@
 'use strict';
 
 angular.module('Geosales')
-    .controller('RutaPendienteController', ['$scope','$ionicPlatform', '$location', '$ionicLoading', '$compile',
-    function($scope, $ionicPlatform, $location, $ionicLoading, $compile) {
+    .controller('RutaPendienteController', ['$scope','$ionicPlatform', '$location', '$ionicLoading', '$compile', '$ionicScrollDelegate',
+    function ContentCtrl($scope, $ionicPlatform, $location, $ionicLoading, $compile, $ionicScrollDelegate) {
+
+  $scope.showLoading = function() {
+    $ionicLoading.show({template: 'Cargando...'});
+  };
+
+  $scope.hideLoading = function() {
+    $ionicLoading.hide();
+  };
+
+  $scope.scrollTop = function() {
+    $ionicScrollDelegate.scrollTop();
+  };
 
   $scope.currentPosition = null;
   $scope.clientes = [];
@@ -16,6 +28,7 @@ angular.module('Geosales')
   var markerArray = [];
 
   $scope.$on('$viewContentLoaded', function(){
+    $scope.showLoading();
     getCurrentPosition();
   });
 
@@ -127,6 +140,7 @@ angular.module('Geosales')
                   addClientToMap(results[i]);
               };
               $scope.$apply();
+              $scope.hideLoading();
           }
       },{
           error: function(error) {
@@ -145,6 +159,7 @@ angular.module('Geosales')
   $scope.displayCliente = function(cliente) {
     infowindow.setContent(cliente.windowContent);
     infowindow.open(map,cliente.marker);
+    $scope.scrollTop();
   };
 
   var getMarkerForClient = function(cliente) {

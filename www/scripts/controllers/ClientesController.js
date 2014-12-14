@@ -1,12 +1,20 @@
 'use strict';
 
 angular.module('Geosales')
-  .controller('ClientesController', ['$scope', 'ClientesServices', '$stateParams', function ContentCtrl($scope, ClientesServices, $stateParams) {
+  .controller('ClientesController', ['$scope', 'ClientesServices', '$stateParams', '$ionicLoading', function ContentCtrl($scope, ClientesServices, $stateParams, $ionicLoading) {
 	
   	$scope.clientes = [];
+    
+    $scope.showLoading = function() {
+        $ionicLoading.show({template: 'Cargando...'});
+    };
+
+    $scope.hideLoading = function() {
+        $ionicLoading.hide();
+    };
 
     $scope.$on('$viewContentLoaded', function(){
-        //$scope.updateClientes();
+        $scope.showLoading();
     });
 
     $scope.updateClientes = function() {
@@ -25,6 +33,7 @@ angular.module('Geosales')
                     $scope.clientes.push(results[i].attributes);
                 };
                 $scope.$apply();
+                $scope.hideLoading();
             }
         },{
             error: function(error) {
