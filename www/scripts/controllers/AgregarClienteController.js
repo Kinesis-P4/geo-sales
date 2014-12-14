@@ -1,7 +1,16 @@
 'use strict';
 
 angular.module('Geosales')
-  .controller('AgregarClienteController', ['$scope', '$rootScope', 'ClientesServices','$state','$stateParams', '$ionicPopup', '$location', function ContentCtrl($scope, $rootScope, ClientesServices, $state, $stateParams, $ionicPopup, $location) {
+  .controller('AgregarClienteController', ['$scope', '$rootScope', 'ClientesServices','$state','$stateParams', '$ionicPopup', '$location', '$ionicLoading', 
+  	function ContentCtrl($scope, $rootScope, ClientesServices, $state, $stateParams, $ionicPopup, $location, $ionicLoading) {
+
+	$scope.showLoading = function() {
+		$ionicLoading.show({template: 'Cargando...'});
+	};
+
+	$scope.hideLoading = function() {
+		$ionicLoading.hide();
+	};
 
   	$scope.currentPosition = {};
 	$scope.cliente = {name:'', lastName:'', email:'', phone:'', collectDate:15};
@@ -18,6 +27,7 @@ angular.module('Geosales')
   	};
 
   	$scope.addClient = function() {
+  		$scope.showLoading();
   		var Client = Parse.Object.extend('clients');
   		var newClient = new Client();
   		var defaultPoint = new Parse.GeoPoint({latitude: null, longitude: null});
@@ -35,6 +45,7 @@ angular.module('Geosales')
 		newClient.save({
 			success: function(newClient){
 				alert('El cliente fue agregado correctamente.');
+				$scope.hideLoading();
 				window.history.back();
 			}
 		});
