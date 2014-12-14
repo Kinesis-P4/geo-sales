@@ -11,7 +11,7 @@ angular.module('Geosales')
     var emailSubject = "Reporte Geo-Sales";
     
     $scope.generarReporte = function(){
-        
+        $scope.emailBody = "Reporte de sistema Geo-Sales generado a la fecha " + $scope.getFecha(new Date()) + ".";
         var emailSubject = "Reporte Geo-Sales";
   
         // if($scope.reporte.usoGeneral){
@@ -26,6 +26,10 @@ angular.module('Geosales')
         }
 
         //enviarCorreo(emailBody, emailSubject, "ljblanco@gmail.com");
+    }
+    $scope.getFecha = function(date){
+        var fecha = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes();
+        return fecha;
     }
     $scope.obtenerDatosSistema = function(){
         var Client = Parse.Object.extend('clients');
@@ -211,7 +215,7 @@ angular.module('Geosales')
                 };
                 $scope.emailBody += "\n\n";
                 $scope.emailBody += "- Clientes morosos:\n";
-                $scope.obtenerClientesMorosos();
+                
                 if ($scope.clientesPendientes.length > 0){
                     for(var i = 0; i < $scope.clientesPendientes.length; i++){
                         $scope.emailBody += "   " + (i + 1) + " - " + $scope.clientesPendientes[i].name + " " + $scope.clientesPendientes[i].lastName + "\n";
@@ -252,7 +256,7 @@ angular.module('Geosales')
                 $scope.emailBody += "\n\n";
                 $scope.emailBody += "- Clientes al día:\n";
                 
-                $scope.obtenerClientesAlDia();
+                
                 if ($scope.clientesAlDia.length > 0){
                     for(var i = 0; i < $scope.clientesAlDia.length; i++){
                         $scope.emailBody += "   " + (i + 1) + " - " + $scope.clientesAlDia[i].name + " " + $scope.clientesAlDia[i].lastName + "\n";
@@ -324,6 +328,8 @@ angular.module('Geosales')
     }
     function enviarCorreo(body, subject, toUser){
     
+    body += "\n\n";
+    body += "Geo-Sales app.";
     
     if(window.plugins && window.plugins.emailComposer) {
             window.plugins.emailComposer.showEmailComposerWithCallback(function(result) {
@@ -334,7 +340,7 @@ angular.module('Geosales')
             [toUser],    // To
             null,                    // CC
             null,                    // BCC
-            true,                   // isHTML
+            false,                   // isHTML
             null,                    // Attachments
             null);                   // Attachment Data
         }
