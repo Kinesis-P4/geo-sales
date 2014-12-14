@@ -26,8 +26,7 @@
 			</div>
 			<br />
 			<div class="button-bar">
-				<a class="button button-positive icon-left ion-arrow-left-b"  href="#/tab/clientes" style="font-size:14px">Volver</a>
-				<a class="button button-positive icon-left ion-map" ng-click="navegarACliente()">Visitar</a>
+				<a class="button button-balanced icon-left ion-map" ng-click="navigateTo()">Visitar</a>
 			</div>
 			<br />
 			<ul>
@@ -65,11 +64,11 @@
 </ion-view>
 
 <script id="popupCredito.html" type="text/ng-template">
-	<input type="number" ng-model="data.deposit" placeholder="10000">
+	<input type="number" ng-model="data.deposit" placeholder="Ingresar monto">
 	<input type="hidden" ng-model="data.isRefund" value="false">
 </script>
 <script id="popupRefund.html" type="text/ng-template">
-	<input type="number" ng-model="data.deposit" placeholder="10000">
+	<input type="number" ng-model="data.deposit" placeholder="Ingresar monto">
 	<br>
 	<input type="text" ng-model="data.detail" placeholder="Detalle">
 	<input type="hidden" ng-model="data.isRefund" value="true">

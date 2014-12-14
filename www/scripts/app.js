@@ -66,15 +66,15 @@ angular.module('Geosales', ['ionic', 'config'])
         }
       }
     })
-    .state('tabs.pendientes', {
-      url: '/pendientes',
-      views: {
-        'pendientes-tab': {
-          templateUrl: 'views/pendientes.html',
-          controller: 'PendientesController'
-        }
-      }
-    })
+    // .state('tabs.pendientes', {
+    //   url: '/pendientes',
+    //   views: {
+    //     'pendientes-tab': {
+    //       templateUrl: 'views/pendientes.html',
+    //       controller: 'PendientesController'
+    //     }
+    //   }
+    // })
     // .state('tabs.rutas', {
     //   url: '/rutas',
     //   views: {
@@ -97,7 +97,8 @@ angular.module('Geosales', ['ionic', 'config'])
       url: '/estadisticas',
       views: {
         'estadisticas-tab': {
-          templateUrl: 'views/estadisticas.html'
+          templateUrl: 'views/estadisticas.html',
+          controller: 'EstadisticasController'
         }
       }
     })
@@ -115,12 +116,13 @@ angular.module('Geosales', ['ionic', 'config'])
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
+    ionic.Platform.fullScreen();
     if(window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
     }
     if(window.StatusBar) {
       // org.apache.cordova.statusbar required
-      StatusBar.styleDefault();
+      StatusBar.hide();
     }
   });
 
