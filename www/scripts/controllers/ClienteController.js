@@ -52,7 +52,7 @@ angular.module('Geosales').controller('ClienteController', ['$scope', 'ClientesS
              + "&body=" + escape(comprasHTML)
     ;
 
-    window.location.href = link;
+    window.open(link, '_system', 'location=yes');
   };
 
   $scope.eliminarCliente = function(){
