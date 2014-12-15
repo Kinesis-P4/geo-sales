@@ -14,19 +14,19 @@
 			<p><span>Último abono:</span> {{cliente.attributes.lastCollectDate.getTime() | date:"dd/MM/yyyy 'at' h:mma"}} </p>
 
 			<div class="button-bar">
-				<a class="button button-positive icon-left ion-bag" href="#/tab/cliente/{{cliente.id}}/agregar-credito" style="font-size:14px">Compra</a>
-				<a class="button button-positive icon-left ion-cash" ng-click="showPopup(false, false)" style="font-size:14px">Abono</a>
-				<a class="button button-positive icon-right ion-minus-circled" ng-click="showPopup(true, false)" style="font-size:14px">Cancelar</a>
+				<a class="button button-positive icon-left ion-bag" href="#/tab/cliente/{{cliente.id}}/agregar-credito" style="font-size:12px">Compra</a>
+				<a class="button button-positive icon-left ion-cash" ng-click="showPopup(false, false)" style="font-size:12px">Abono</a>
+				<a class="button button-positive icon-left ion-minus-circled" ng-click="showPopup(true, false)" style="font-size:12px">Cancelar</a>
 			</div>
 			<br />
 			<div class="button-bar">
-				<a class="button button-positive icon-left ion-thumbsdown" ng-click="showPopup(false, true)" style="font-size:14px">Devolución/Rebajo</a>
-				<a class="button button-positive icon-left ion-email" ng-click="enviarCorreo()" style="font-size:14px">Notificar</a>
-				<a class="button button-assertive icon-right ion-heart-broken" ng-click="eliminarCliente()" style="font-size:14px">Eliminar</a>
+				<a class="button button-positive icon-left ion-thumbsdown" ng-click="showPopup(false, true)" style="font-size:12px">Devolución/Rebajo</a>
+				<a class="button button-positive icon-left ion-email" ng-click="enviarCorreo()" style="font-size:12px">Notificar</a>
+				<a class="button button-assertive icon-left ion-heart-broken" ng-click="eliminarCliente()" style="font-size:12px">Eliminar</a>
 			</div>
 			<br />
 			<div class="button-bar">
-				<a class="button button-balanced icon-left ion-map" ng-click="navigateTo()">Visitar</a>
+				<a class="button button-balanced icon-left ion-map" ng-click="navigateTo()" style="font-size:12px">Visitar</a>
 			</div>
 			<br />
 			<ul>
