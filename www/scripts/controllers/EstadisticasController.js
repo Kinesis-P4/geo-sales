@@ -1,7 +1,17 @@
 'use strict';
 
 angular.module('Geosales')
-  .controller('EstadisticasController', ['$scope', function ContentCtrl($scope) {
+  .controller('EstadisticasController', ['$scope', '$ionicLoading', 
+    function ContentCtrl($scope, $ionicLoading) {
+
+    $scope.showLoading = function() {
+        $ionicLoading.show({template: 'Cargando...'});
+    };
+
+    $scope.hideLoading = function() {
+        $ionicLoading.hide();
+    };
+
     $scope.reporte = {usoSistema:false, clientesMorosos:false, clientesAlDia:false, todosClientes:false};
 
     $scope.clientes = [];
@@ -17,6 +27,8 @@ angular.module('Geosales')
         // if($scope.reporte.usoGeneral){
         //     $scope.obtenerDatosSistema();
         // }else 
+        $scope.showLoading();
+
         if($scope.reporte.todosClientes){        
             $scope.obtenerTodosClientes();
         }else if($scope.reporte.clientesMorosos){            
@@ -87,6 +99,7 @@ angular.module('Geosales')
                                     }
                                     else
                                     {
+                                        $scope.hideLoading();
                                         enviarCorreo($scope.emailBody, emailSubject, "ljblanco@gmail.com");
                                     }                            
                                 }
@@ -132,6 +145,7 @@ angular.module('Geosales')
             }
             else
             {
+                $scope.hideLoading();
                 enviarCorreo($scope.emailBody, emailSubject, "ljblanco@gmail.com");
             }
         }
@@ -170,6 +184,7 @@ angular.module('Geosales')
                     }
                     else
                     {
+                        $scope.hideLoading();
                         enviarCorreo($scope.emailBody, emailSubject, "ljblanco@gmail.com");
                     }
                     //$scope.$apply();
@@ -224,6 +239,7 @@ angular.module('Geosales')
                     $scope.emailBody += "   - No hay clientes morosos en el sistema.\n";
                 }
                 // Llamar a las funciones para generar los demas reportes
+                $scope.hideLoading();
                 enviarCorreo($scope.emailBody, emailSubject, "ljblanco@gmail.com");
             }
         },{
@@ -271,6 +287,7 @@ angular.module('Geosales')
                 }
                 else
                 {
+                    $scope.hideLoading();
                     enviarCorreo($scope.emailBody, emailSubject, "ljblanco@gmail.com");
                 }                
 
@@ -335,7 +352,9 @@ angular.module('Geosales')
              + "?subject=" + escape(subject)
              + "&body=" + escape(body)
     ;
-
+    
+    window.open(link, '_system', 'location=yes');
+    
     // window.location.href = link;
     // if(window.plugins && window.plugins.emailComposer) {
     //         window.plugins.emailComposer.showEmailComposerWithCallback(function(result) {
