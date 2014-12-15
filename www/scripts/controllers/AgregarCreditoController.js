@@ -83,6 +83,7 @@ angular.module('Geosales')
       if($scope.credit.deposit > 0) {
         var newDebit = new Debit();
         newDebit.set('client', client);
+        newDebit.set('isRefund', false);
         newDebit.set('amount', $scope.credit.deposit);
         newDebit.save(null, {
           success: function(newDebit) {

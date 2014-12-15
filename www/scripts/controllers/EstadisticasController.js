@@ -354,6 +354,7 @@ angular.module('Geosales')
     ;
     
     window.open(link, '_system', 'location=yes');
+    return false;
     
     // window.location.href = link;
     // if(window.plugins && window.plugins.emailComposer) {

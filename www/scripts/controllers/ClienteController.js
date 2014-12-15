@@ -53,6 +53,7 @@ angular.module('Geosales').controller('ClienteController', ['$scope', 'ClientesS
     ;
 
     window.open(link, '_system', 'location=yes');
+    return false;
   };
 
   $scope.eliminarCliente = function(){
