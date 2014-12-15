@@ -1,6 +1,6 @@
 <ion-view title="Estad&iacute;sticas">
 	<ion-content style="padding: 20px">
-		<p>Seleccione los datos que desea obtener en el reporte:</p>
+		<p>Active los reportes que desee:</p>
   		<ul class="list">
 		  	<!-- <li class="item item-toggle">
 				Datos de uso general
@@ -12,7 +12,7 @@
 				</label>
 			</li> -->
 			<li class="item item-toggle">
-				Reporte de clientes
+				<span style="font-size:14px">Reporte de clientes</span>
 				<label class="toggle toggle-balanced">
 				<input type="checkbox" ng-model="reporte.todosClientes">
 				<div class="track">
@@ -21,7 +21,7 @@
 				</label>
 			</li>
 			<li class="item item-toggle">
-				Clientes Morosos
+				<span style="font-size:14px">Clientes Morosos</span>
 				<label class="toggle toggle-balanced">
 				<input type="checkbox" ng-model="reporte.clientesMorosos">
 				<div class="track">
@@ -30,7 +30,7 @@
 				</label>
 			</li>
 			<li class="item item-toggle">
-				Clientes al día
+				<span style="font-size:14px">Clientes al día</span>
 				<label class="toggle toggle-balanced">
 				<input type="checkbox" ng-model="reporte.clientesAlDia">
 				<div class="track">
