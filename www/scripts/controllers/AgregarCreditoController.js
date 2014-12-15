@@ -1,7 +1,16 @@
 'use strict';
 
 angular.module('Geosales')
-  .controller('AgregarCreditoController', ['$scope', 'ClientesServices', 'CreditosServices','$state','$stateParams', '$location', function ContentCtrl($scope, ClientesServices, CreditosServices, $state, $stateParams, $location) {
+  .controller('AgregarCreditoController', ['$scope', 'ClientesServices', 'CreditosServices','$state','$stateParams', '$location', '$ionicLoading',
+    function ContentCtrl($scope, ClientesServices, CreditosServices, $state, $stateParams, $location, $ionicLoading) {
+
+    $scope.showLoading = function() {
+      $ionicLoading.show({template: 'Cargando...'});
+    };
+
+    $scope.hideLoading = function() {
+      $ionicLoading.hide();
+    };
 
     var Client = Parse.Object.extend('clients');
     var Debit = Parse.Object.extend('debits');
@@ -30,11 +39,13 @@ angular.module('Geosales')
   	};
 
     $scope.submitCredit = function() {
+      $scope.showLoading();
       var query = new Parse.Query(Client);
       query.get($stateParams.id, {
         success: function(responseClient) {
           addCredit(responseClient);
           alert('El crédito fue agregado correctamente.');
+          $scope.hideLoading();
           window.history.back();
         },
         error: function(object, error) {
@@ -84,6 +95,7 @@ angular.module('Geosales')
         var newDebit = new Debit();
         newDebit.set('client', client);
         newDebit.set('isRefund', false);
+        newDebit.set('detail', '');
         newDebit.set('amount', $scope.credit.deposit);
         newDebit.save(null, {
           success: function(newDebit) {

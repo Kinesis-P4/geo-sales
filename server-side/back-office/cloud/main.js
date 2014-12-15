@@ -16,6 +16,10 @@ Parse.Cloud.afterSave('credits', function(request) {
 			newAccountLog.set('client', addedCredit.get('client'));
 			newAccountLog.set('transaction_kind', 'credit');
 			newAccountLog.set('amount', addedCredit.get('amount'));
+	
+			newAccountLog.set('isRefund', false);
+			newAccountLog.set('detail', '');
+			
 			newAccountLog.save();
 		},
 		error: function() {

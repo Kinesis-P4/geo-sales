@@ -129,7 +129,7 @@ angular.module('Geosales').controller('ClienteController', ['$scope', 'ClientesS
   $scope.getTransactions = function() {
 		var Log = Parse.Object.extend('account_log');
 		var query = new Parse.Query(Log);
-		query.ascending('updatedAt');
+		query.ascending('createdAt');
     query.include('client');
 		query.include('debit');
 		query.include('credit');

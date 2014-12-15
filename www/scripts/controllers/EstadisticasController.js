@@ -37,7 +37,7 @@ angular.module('Geosales')
             $scope.obtenerClientesAlDia();            
         }
 
-        //enviarCorreo(emailBody, emailSubject, "ljblanco@gmail.com");
+        //enviarCorreo(emailBody, emailSubject, "beto.ldas@gmail.com");
     }
     $scope.getFecha = function(date){
         var fecha = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes();
@@ -100,7 +100,7 @@ angular.module('Geosales')
                                     else
                                     {
                                         $scope.hideLoading();
-                                        enviarCorreo($scope.emailBody, emailSubject, "ljblanco@gmail.com");
+                                        enviarCorreo($scope.emailBody, emailSubject, "beto.ldas@gmail.com");
                                     }                            
                                 }
                             },{
@@ -146,7 +146,7 @@ angular.module('Geosales')
             else
             {
                 $scope.hideLoading();
-                enviarCorreo($scope.emailBody, emailSubject, "ljblanco@gmail.com");
+                enviarCorreo($scope.emailBody, emailSubject, "beto.ldas@gmail.com");
             }
         }
         else
@@ -185,7 +185,7 @@ angular.module('Geosales')
                     else
                     {
                         $scope.hideLoading();
-                        enviarCorreo($scope.emailBody, emailSubject, "ljblanco@gmail.com");
+                        enviarCorreo($scope.emailBody, emailSubject, "beto.ldas@gmail.com");
                     }
                     //$scope.$apply();
                 }
@@ -240,7 +240,7 @@ angular.module('Geosales')
                 }
                 // Llamar a las funciones para generar los demas reportes
                 $scope.hideLoading();
-                enviarCorreo($scope.emailBody, emailSubject, "ljblanco@gmail.com");
+                enviarCorreo($scope.emailBody, emailSubject, "beto.ldas@gmail.com");
             }
         },{
             error: function(error) {
@@ -288,7 +288,7 @@ angular.module('Geosales')
                 else
                 {
                     $scope.hideLoading();
-                    enviarCorreo($scope.emailBody, emailSubject, "ljblanco@gmail.com");
+                    enviarCorreo($scope.emailBody, emailSubject, "beto.ldas@gmail.com");
                 }                
 
             }
