@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('Geosales').controller('ClienteController', ['$scope', 'ClientesServices', '$ionicPopup', '$state', '$stateParams', '$ionicLoading', 'PARSE_CREDENTIALS', 
-	function ($scope, ClientesServices, $ionicPopup, $state, $stateParams, $ionicLoading, PARSE_CREDENTIALS) {
+angular.module('Geosales').controller('ClienteController', ['$scope', 'ClientesServices', '$ionicPopup', '$state', '$stateParams', '$ionicLoading', 'PARSE_CREDENTIALS', '$ionicTabsDelegate', 
+	function ($scope, ClientesServices, $ionicPopup, $state, $stateParams, $ionicLoading, PARSE_CREDENTIALS, $ionicTabsDelegate) {
 
   $scope.showLoading = function() {
     $ionicLoading.show({template: 'Cargando...'});
@@ -72,7 +72,8 @@ angular.module('Geosales').controller('ClienteController', ['$scope', 'ClientesS
             $scope.cliente.destroy({
                 success: function(){
                 alert("El cliente fue eliminado correctamente.");
-                window.history.back();
+                // window.go('/clientes');
+                $ionicTabsDelegate.select(1);
               },
               error: function(cliente, error){
                 alert("Ocurrió un error eliminando el cliente. " + error.message);
