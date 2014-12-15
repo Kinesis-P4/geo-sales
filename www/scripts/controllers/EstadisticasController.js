@@ -329,21 +329,27 @@ angular.module('Geosales')
     function enviarCorreo(body, subject, toUser){
     
     body += "\n\n";
-    body += "Geo-Sales app.";
-    
-    if(window.plugins && window.plugins.emailComposer) {
-            window.plugins.emailComposer.showEmailComposerWithCallback(function(result) {
-                console.log("Response -> " + result);
-            },
-            subject, // Subject
-            body,                      // Body
-            [toUser],    // To
-            null,                    // CC
-            null,                    // BCC
-            false,                   // isHTML
-            null,                    // Attachments
-            null);                   // Attachment Data
-        }
+    body += "- Geo-Sales app -";
+
+    var link = "mailto:" + toUser
+             + "?subject=" + escape(subject)
+             + "&body=" + escape(body)
+    ;
+
+    // window.location.href = link;
+    // if(window.plugins && window.plugins.emailComposer) {
+    //         window.plugins.emailComposer.showEmailComposerWithCallback(function(result) {
+    //             console.log("Response -> " + result);
+    //         },
+    //         subject, // Subject
+    //         body,                      // Body
+    //         [toUser],    // To
+    //         null,                    // CC
+    //         null,                    // BCC
+    //         false,                   // isHTML
+    //         null,                    // Attachments
+    //         null);                   // Attachment Data
+    //     }
   };
     
 }]);

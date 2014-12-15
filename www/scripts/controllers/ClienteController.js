@@ -44,19 +44,15 @@ angular.module('Geosales').controller('ClienteController', ['$scope', 'ClientesS
       }
     }
     comprasHTML += "- Saldo: " + $scope.getSaldo() + "\n";
-    if(window.plugins && window.plugins.emailComposer) {
-            window.plugins.emailComposer.showEmailComposerWithCallback(function(result) {
-                console.log("Response -> " + result);
-            },
-            "Estado de Cuenta", // Subject
-            comprasHTML,                      // Body
-            [$scope.cliente.attributes.email],    // To
-            null,                    // CC
-            null,                    // BCC
-            false,                   // isHTML
-            null,                    // Attachments
-            null);                   // Attachment Data
-        }
+    comprasHTML += "\n\n";
+    comprasHTML += "- Geo-Sales app -";
+
+    var link = "mailto:" + $scope.cliente.attributes.email
+             + "?subject=" + escape("Estado de cuenta")
+             + "&body=" + escape(comprasHTML)
+    ;
+
+    window.open(link, '_system', 'location=yes');
   };
 
   $scope.eliminarCliente = function(){
